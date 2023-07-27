@@ -4,7 +4,6 @@ namespace Badraxas\Adstxt;
 
 use Badraxas\Adstxt\Enums\AccountType;
 use Badraxas\Adstxt\Exceptions\AdsTxtParser\FileOpenException;
-use Badraxas\Adstxt\Exceptions\AdsTxtParser\ParserException;
 use Badraxas\Adstxt\Lines\Blank;
 use Badraxas\Adstxt\Lines\Comment;
 use Badraxas\Adstxt\Lines\Invalid;
@@ -18,7 +17,7 @@ class AdsTxtParser
         $handle = fopen($path, 'r');
 
         if (!$handle) {
-            throw new FileOpenException(sprintf("Cannot open file %s. Please check the path and/or file permissions", $path));
+            throw new FileOpenException(sprintf('Cannot open file %s. Please check the path and/or file permissions', $path));
         }
 
         $content = fread($handle, filesize($path));
@@ -36,7 +35,7 @@ class AdsTxtParser
         foreach ($lines as $lineNumber => $line) {
             $line = trim($line);
 
-            if ($line === '') {
+            if ('' === $line) {
                 $adsTxt->addLines(new Blank());
 
                 continue;
@@ -51,10 +50,9 @@ class AdsTxtParser
                     $adsTxt->addLines(new Comment(rtrim(mb_strcut($line, 1))));
 
                     continue;
-                } else {
-                    $comment = new Comment(rtrim($exploded_line[1]));
-                    $line = trim($exploded_line[0]);
                 }
+                $comment = new Comment(rtrim($exploded_line[1]));
+                $line = trim($exploded_line[0]);
             }
 
             if (str_contains($line, ',')) {
@@ -63,7 +61,7 @@ class AdsTxtParser
 
                 $fieldsCount = count($exploded_line);
 
-                if ($fieldsCount != 3 && $fieldsCount != 4) {
+                if (3 != $fieldsCount && 4 != $fieldsCount) {
                     $adsTxt->addLines(new Invalid($line, $comment));
 
                     continue;
@@ -80,7 +78,7 @@ class AdsTxtParser
                 $exploded_line = explode('=', $line);
                 $exploded_line = array_map('trim', $exploded_line);
 
-                if (count($exploded_line) != 2) {
+                if (2 != count($exploded_line)) {
                     $adsTxt->addLines(new Invalid($line, $comment));
 
                     continue;

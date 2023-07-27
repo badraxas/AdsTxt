@@ -1,9 +1,13 @@
 <?php
 
-
 use Badraxas\Adstxt\Lines\Variable;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 final class VariableTest extends TestCase
 {
     public function testVariableOutput(): void

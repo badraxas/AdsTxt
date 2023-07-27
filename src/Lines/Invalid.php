@@ -10,14 +10,12 @@ class Invalid implements AdsTxtLineInterface
     {
     }
 
-    /**
-     * @inheritDoc
-     */
     public function __toString(): string
     {
         if (!isset($this->comment)) {
             return $this->value;
         }
+
         return sprintf('%s%s', $this->value, $this->comment);
     }
 }

@@ -8,13 +8,12 @@ use Badraxas\Adstxt\Interfaces\AdsTxtLineInterface;
 class Vendor implements AdsTxtLineInterface
 {
     public function __construct(
-        private readonly string      $domain,
-        private                      $publisherId,
+        private readonly string $domain,
+        private $publisherId,
         private readonly AccountType $accountType,
-        private                      $certificationId = null,
+        private $certificationId = null,
         private readonly ?Comment $comment = null
-    )
-    {
+    ) {
     }
 
     public function __toString(): string

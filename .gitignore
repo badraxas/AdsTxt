@@ -3,7 +3,6 @@
 *.iml
 *.iws
 *.ipr
-*.iws
 *.idea/
 *.phpstorm.meta.php
 
@@ -18,7 +17,8 @@
 /coverage/
 .phpunit.result.cache
 
-# Ignore PHP-CS-Fixer cache files
-.php_cs.cache
+# Ignore PHP-CS-Fixer files
+.php-cs-fixer.cache
+.php-cs-fixer.php
 
 # Ignore Composer cache files

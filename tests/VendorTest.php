@@ -1,11 +1,15 @@
 <?php
 
-
 use Badraxas\Adstxt\Enums\AccountType;
 use Badraxas\Adstxt\Lines\Comment;
 use Badraxas\Adstxt\Lines\Vendor;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 class VendorTest extends TestCase
 {
     public function testVendorOutput(): void

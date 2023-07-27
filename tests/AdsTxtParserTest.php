@@ -1,6 +1,5 @@
 <?php
 
-
 use Badraxas\Adstxt\AdsTxt;
 use Badraxas\Adstxt\AdsTxtParser;
 use Badraxas\Adstxt\Enums\AccountType;
@@ -11,6 +10,11 @@ use Badraxas\Adstxt\Lines\Variable;
 use Badraxas\Adstxt\Lines\Vendor;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 class AdsTxtParserTest extends TestCase
 {
     public function testParseFromString(): void
@@ -27,7 +31,8 @@ class AdsTxtParserTest extends TestCase
                 'd75815a79',
                 new Comment(' GreenAd certification ID')
             ))
-            ->addLines(new Variable('contact', 'contact@example.org'));
+            ->addLines(new Variable('contact', 'contact@example.org'))
+        ;
 
         $adsTxt = AdsTxtParser::fromString($adsTxtString);
 
@@ -48,7 +53,8 @@ class AdsTxtParserTest extends TestCase
         $adsTxtReference = (new AdsTxt())
             ->addLines(new Comment(' First line of file'))
             ->addLines(new Invalid('greenadexchange.com, XF436, DIRECT, d75815a79, GreenAd certification ID'))
-            ->addLines(new Variable('contact', 'contact@example.org'));
+            ->addLines(new Variable('contact', 'contact@example.org'))
+        ;
 
         $adsTxt = AdsTxtParser::fromString($adsTxtString);
 
@@ -64,12 +70,12 @@ class AdsTxtParserTest extends TestCase
 
     public function testParseFromFile(): void
     {
-        $adsTxt = AdsTxtParser::fromFile(__DIR__ . '/test_files/ads.txt');
+        $adsTxt = AdsTxtParser::fromFile(__DIR__.'/test_files/ads.txt');
         $adsTxtReference = (new AdsTxt())
             ->addLines(new Comment(' ads.txt file for divisionone.example.com:'))
             ->addLines(new Vendor('silverssp.com', 5569, AccountType::DIRECT, 'f496211'))
-            ->addLines(new Vendor('orangeexchange.com', 'AB345', AccountType::RESELLER));
-
+            ->addLines(new Vendor('orangeexchange.com', 'AB345', AccountType::RESELLER))
+        ;
 
         $this->assertInstanceOf(AdsTxt::class, $adsTxt);
 

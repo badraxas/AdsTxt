@@ -11,21 +11,21 @@ class AdsTxt implements \Stringable
      */
     private array $lines = [];
 
-    public function addLines(AdsTxtLineInterface $line): self
-    {
-        $this->lines[] = $line;
-
-        return $this;
-    }
-
     public function __toString(): string
     {
         $output = '';
 
         foreach ($this->lines as $line) {
-            $output .= sprintf("%s%s", $line->__toString(), PHP_EOL);
+            $output .= sprintf('%s%s', $line->__toString(), PHP_EOL);
         }
 
         return trim($output);
+    }
+
+    public function addLines(AdsTxtLineInterface $line): self
+    {
+        $this->lines[] = $line;
+
+        return $this;
     }
 }
