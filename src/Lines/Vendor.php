@@ -49,4 +49,9 @@ class Vendor implements AdsTxtLineInterface
 
         return $vendor;
     }
+
+    public function equals(AdsTxtLineInterface $adsTxtLine): bool
+    {
+        return $adsTxtLine instanceof Vendor && $adsTxtLine->__toString() === $this->__toString();
+    }
 }

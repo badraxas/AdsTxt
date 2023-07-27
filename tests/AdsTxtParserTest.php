@@ -17,21 +17,35 @@ use PHPUnit\Framework\TestCase;
  */
 class AdsTxtParserTest extends TestCase
 {
+    public function testParseFromFile(): void
+    {
+        $adsTxt = AdsTxtParser::fromFile(__DIR__.'/test_files/ads.txt');
+        $adsTxtReference = (new AdsTxt())
+            ->addLine(new Comment(' ads.txt file for divisionone.example.com:'))
+            ->addLine(new Vendor('silverssp.com', 5569, AccountType::DIRECT, 'f496211'))
+            ->addLine(new Vendor('orangeexchange.com', 'AB345', AccountType::RESELLER))
+        ;
+
+        $this->assertInstanceOf(AdsTxt::class, $adsTxt);
+
+        $this->assertEquals($adsTxtReference, $adsTxt);
+    }
+
     public function testParseFromString(): void
     {
         $adsTxtString = "# First line of file\n\ngreenadexchange.com, XF436, DIRECT, d75815a79 # GreenAd certification ID\ncontact=contact@example.org";
 
         $adsTxtReference = (new AdsTxt())
-            ->addLines(new Comment(' First line of file'))
-            ->addLines(new Blank())
-            ->addLines(new Vendor(
+            ->addLine(new Comment(' First line of file'))
+            ->addLine(new Blank())
+            ->addLine(new Vendor(
                 'greenadexchange.com',
                 'XF436',
                 AccountType::DIRECT,
                 'd75815a79',
                 new Comment(' GreenAd certification ID')
             ))
-            ->addLines(new Variable('contact', 'contact@example.org'))
+            ->addLine(new Variable('contact', 'contact@example.org'))
         ;
 
         $adsTxt = AdsTxtParser::fromString($adsTxtString);
@@ -51,9 +65,9 @@ class AdsTxtParserTest extends TestCase
         $adsTxtString = "# First line of file\ngreenadexchange.com, XF436, DIRECT, d75815a79, GreenAd certification ID\ncontact=contact@example.org";
 
         $adsTxtReference = (new AdsTxt())
-            ->addLines(new Comment(' First line of file'))
-            ->addLines(new Invalid('greenadexchange.com, XF436, DIRECT, d75815a79, GreenAd certification ID'))
-            ->addLines(new Variable('contact', 'contact@example.org'))
+            ->addLine(new Comment(' First line of file'))
+            ->addLine(new Invalid('greenadexchange.com, XF436, DIRECT, d75815a79, GreenAd certification ID'))
+            ->addLine(new Variable('contact', 'contact@example.org'))
         ;
 
         $adsTxt = AdsTxtParser::fromString($adsTxtString);
@@ -66,19 +80,5 @@ class AdsTxtParserTest extends TestCase
             $adsTxtString,
             $adsTxt->__toString()
         );
-    }
-
-    public function testParseFromFile(): void
-    {
-        $adsTxt = AdsTxtParser::fromFile(__DIR__.'/test_files/ads.txt');
-        $adsTxtReference = (new AdsTxt())
-            ->addLines(new Comment(' ads.txt file for divisionone.example.com:'))
-            ->addLines(new Vendor('silverssp.com', 5569, AccountType::DIRECT, 'f496211'))
-            ->addLines(new Vendor('orangeexchange.com', 'AB345', AccountType::RESELLER))
-        ;
-
-        $this->assertInstanceOf(AdsTxt::class, $adsTxt);
-
-        $this->assertEquals($adsTxtReference, $adsTxt);
     }
 }

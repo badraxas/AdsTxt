@@ -59,7 +59,7 @@ class AdsTxtParser
             $line = trim($line);
 
             if ('' === $line) {
-                $adsTxt->addLines(new Blank());
+                $adsTxt->addLine(new Blank());
 
                 continue;
             }
@@ -70,7 +70,7 @@ class AdsTxtParser
                 $exploded_line = explode('#', $line);
 
                 if (str_starts_with($line, '#')) {
-                    $adsTxt->addLines(new Comment(rtrim(mb_strcut($line, 1))));
+                    $adsTxt->addLine(new Comment(rtrim(mb_strcut($line, 1))));
 
                     continue;
                 }
@@ -85,12 +85,12 @@ class AdsTxtParser
                 $fieldsCount = count($exploded_line);
 
                 if (3 != $fieldsCount && 4 != $fieldsCount) {
-                    $adsTxt->addLines(new Invalid($line, $comment));
+                    $adsTxt->addLine(new Invalid($line, $comment));
 
                     continue;
                 }
 
-                $adsTxt->addLines(new Vendor(
+                $adsTxt->addLine(new Vendor(
                     domain: $exploded_line[0],
                     publisherId: $exploded_line[1],
                     accountType: AccountType::fromName($exploded_line[2]),
@@ -102,18 +102,18 @@ class AdsTxtParser
                 $exploded_line = array_map('trim', $exploded_line);
 
                 if (2 != count($exploded_line)) {
-                    $adsTxt->addLines(new Invalid($line, $comment));
+                    $adsTxt->addLine(new Invalid($line, $comment));
 
                     continue;
                 }
 
-                $adsTxt->addLines(new Variable(
+                $adsTxt->addLine(new Variable(
                     name: $exploded_line[0],
                     value: $exploded_line[1],
                     comment: $comment
                 ));
             } else {
-                $adsTxt->addLines(new Invalid($line, $comment));
+                $adsTxt->addLine(new Invalid($line, $comment));
             }
         }
 

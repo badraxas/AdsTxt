@@ -35,4 +35,9 @@ class Variable implements AdsTxtLineInterface
 
         return sprintf('%s=%s%s', $this->name, $this->value, $this->comment->__toString());
     }
+
+    public function equals(AdsTxtLineInterface $adsTxtLine): bool
+    {
+        return $adsTxtLine instanceof Variable && $adsTxtLine->__toString() === $this->__toString();
+    }
 }
