@@ -29,4 +29,9 @@ class Comment implements AdsTxtLineInterface
     {
         return sprintf('#%s', $this->comment);
     }
+
+    public function equals(AdsTxtLineInterface $adsTxtLine): bool
+    {
+        return $adsTxtLine instanceof Comment && $adsTxtLine->__toString() === $this->__toString();
+    }
 }

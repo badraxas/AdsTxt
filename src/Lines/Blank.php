@@ -20,4 +20,9 @@ class Blank implements AdsTxtLineInterface
     {
         return '';
     }
+
+    public function equals(AdsTxtLineInterface $adsTxtLine): bool
+    {
+        return $adsTxtLine instanceof Blank && $adsTxtLine->__toString() === $this->__toString();
+    }
 }

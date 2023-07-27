@@ -10,4 +10,5 @@ namespace Badraxas\Adstxt\Interfaces;
  */
 interface AdsTxtLineInterface extends \Stringable
 {
+    public function equals(AdsTxtLineInterface $adsTxtLine): bool;
 }

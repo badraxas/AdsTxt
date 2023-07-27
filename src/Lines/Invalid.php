@@ -34,4 +34,9 @@ class Invalid implements AdsTxtLineInterface
 
         return sprintf('%s%s', $this->value, $this->comment->__toString());
     }
+
+    public function equals(AdsTxtLineInterface $adsTxtLine): bool
+    {
+        return $adsTxtLine instanceof Invalid && $adsTxtLine->__toString() === $this->__toString();
+    }
 }
