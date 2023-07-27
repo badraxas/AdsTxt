@@ -2,6 +2,7 @@
     "name": "badraxas/adstxt",
     "description": "The AdsTxt Generator for PHP is a simple and easy-to-use library that allows you to work with the Authorized Digital Sellers (ads.txt) file format in your PHP applications.",
     "type": "library",
+    "license": "proprietary",
     "autoload": {
         "psr-4": {
             "Badraxas\\Adstxt\\": "src/"
