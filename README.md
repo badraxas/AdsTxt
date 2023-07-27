@@ -1,1 +1,1 @@
-# PhpAdsTxt
+# AdsTxt
