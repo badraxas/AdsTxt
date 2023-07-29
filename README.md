@@ -18,8 +18,8 @@
 
 ## Introduction
 
-AdsTxt PHP Parser is a library for processing and parsing content from ads.txt files and converting them into AdsTxt instances. It provides an easy-to-use interface to work with ads.txt data in PHP applications.
-
+The AdsTxt Parser for PHP is a simple and easy-to-use library that allows you to work with the Authorized Digital Sellers (ads.txt) file format in your PHP applications. 
+ 
 ## Installation
 
 You can install the library via Composer. Run the following command in your project directory:
