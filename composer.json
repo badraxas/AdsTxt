@@ -1,33 +1,33 @@
 {
-    "name": "badraxas/adstxt",
-    "description": "The AdsTxt Generator for PHP is a simple and easy-to-use library that allows you to work with the Authorized Digital Sellers (ads.txt) file format in your PHP applications.",
-    "type": "library",
-    "license": "proprietary",
-    "version": "2.0.0",
-    "autoload": {
-        "psr-4": {
-            "Badraxas\\Adstxt\\": "src/"
-        }
-    },
-    "authors": [
-        {
-            "name": "Bastien Mottier"
-        }
-    ],
-    "require-dev": {
-        "phpunit/phpunit": "^10.2",
-        "vimeo/psalm": "^5.13",
-        "symfony/var-dumper": "^6.3",
-        "friendsofphp/php-cs-fixer": "^3.22"
-    },
-  "require": {
-      "ext-mbstring": "*",
-      "psr/http-client": "^1.0",
-      "psr/http-factory": "^1.0"
-  },
-    "config": {
-        "allow-plugins": {
-            "php-http/discovery": false
-        }
+  "name": "badraxas/adstxt",
+  "description": "The AdsTxt Generator for PHP is a simple and easy-to-use library that allows you to work with the Authorized Digital Sellers (ads.txt) file format in your PHP applications.",
+  "type": "library",
+  "license": "proprietary",
+  "autoload": {
+    "psr-4": {
+      "Badraxas\\Adstxt\\": "src/"
     }
+  },
+  "authors": [
+    {
+      "name": "Bastien Mottier"
+    }
+  ],
+  "require-dev": {
+    "phpunit/phpunit": "^10.2",
+    "vimeo/psalm": "^5.13",
+    "symfony/var-dumper": "^6.3",
+    "friendsofphp/php-cs-fixer": "^3.22"
+  },
+  "require": {
+    "php": ">=8.1",
+    "ext-mbstring": "*",
+    "psr/http-client": "^1.0",
+    "psr/http-factory": "^1.0"
+  },
+  "config": {
+    "allow-plugins": {
+      "php-http/discovery": false
+    }
+  }
 }
