@@ -16,9 +16,7 @@ class Comment implements AdsTxtLineInterface
      *
      * @param string $comment the content of the comment
      */
-    public function __construct(private readonly string $comment)
-    {
-    }
+    public function __construct(private readonly string $comment) {}
 
     /**
      * Get the string representation of the Comment line.

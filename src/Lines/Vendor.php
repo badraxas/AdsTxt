@@ -27,8 +27,7 @@ class Vendor implements AdsTxtLineInterface
         private readonly AccountType $accountType,
         private $certificationId = null,
         private readonly ?Comment $comment = null
-    ) {
-    }
+    ) {}
 
     /**
      * Get the string representation of the Vendor line.

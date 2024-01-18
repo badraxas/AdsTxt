@@ -20,6 +20,13 @@
         "friendsofphp/php-cs-fixer": "^3.22"
     },
   "require": {
-    "ext-mbstring": "*"
-  }
+      "ext-mbstring": "*",
+      "psr/http-client": "^1.0",
+      "psr/http-factory": "^1.0"
+  },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": false
+        }
+    }
 }

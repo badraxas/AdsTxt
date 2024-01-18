@@ -18,9 +18,7 @@ class Variable implements AdsTxtLineInterface
      * @param mixed        $value   the value of the variable
      * @param null|Comment $comment the comment associated with the variable (optional)
      */
-    public function __construct(private readonly string $name, private $value, private readonly ?Comment $comment = null)
-    {
-    }
+    public function __construct(private readonly string $name, private $value, private readonly ?Comment $comment = null) {}
 
     /**
      * Get the string representation of the Variable line.

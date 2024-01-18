@@ -19,7 +19,8 @@ class AdsTxtParserTest extends TestCase
 {
     public function testParseFromFile(): void
     {
-        $adsTxt = AdsTxtParser::fromFile(__DIR__.'/test_files/ads.txt');
+        $adsTxtParser = new AdsTxtParser();
+        $adsTxt = $adsTxtParser->fromFile(__DIR__.'/test_files/ads.txt');
         $adsTxtReference = (new AdsTxt())
             ->addLine(new Comment(' ads.txt file for divisionone.example.com:'))
             ->addLine(new Vendor('silverssp.com', 5569, AccountType::DIRECT, 'f496211'))
@@ -48,7 +49,8 @@ class AdsTxtParserTest extends TestCase
             ->addLine(new Variable('contact', 'contact@example.org'))
         ;
 
-        $adsTxt = AdsTxtParser::fromString($adsTxtString);
+        $adsTxtParser = new AdsTxtParser();
+        $adsTxt = $adsTxtParser->fromString($adsTxtString);
 
         $this->assertInstanceOf(AdsTxt::class, $adsTxt);
 
@@ -70,7 +72,8 @@ class AdsTxtParserTest extends TestCase
             ->addLine(new Variable('contact', 'contact@example.org'))
         ;
 
-        $adsTxt = AdsTxtParser::fromString($adsTxtString);
+        $adsTxtParser = new AdsTxtParser();
+        $adsTxt = $adsTxtParser->fromString($adsTxtString);
 
         $this->assertInstanceOf(AdsTxt::class, $adsTxt);
 

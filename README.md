@@ -7,6 +7,7 @@
 - [Usage](#usage)
     - [Parsing AdsTxt from File](#parsing-adstxt-from-file)
     - [Parsing AdsTxt from String](#parsing-adstxt-from-string)
+    - [Parsing AdsTxt from URL](#parsing-adstxt-from-url)
     - [Working with AdsTxt Instance](#working-with-adstxt-instance)
 - [Available Line Types](#available-line-types)
     - [Vendor Line](#vendor-line)
@@ -36,7 +37,7 @@ composer require badraxas/adstxt
 use Badraxas\Adstxt\AdsTxtParser;
 
 try {
-    $adsTxt = AdsTxtParser::fromFile('/path/to/ads.txt');
+    $adsTxt = (new AdsTxtParser())->fromFile('/path/to/ads.txt');
     // You can now work with the $adsTxt instance containing the parsed data.
 } catch (\Badraxas\Adstxt\Exceptions\AdsTxtParser\FileOpenException $exception) {
     // Handle the file open exception here.
@@ -58,10 +59,34 @@ custom_variable=custom_value
 # This is a comment
 EOD;
 
-$adsTxt = AdsTxtParser::fromString($adsTxtContent);
+$adsTxt = (new AdsTxtParser())->fromString($adsTxtContent);
 // Now you have an instance of AdsTxt containing the parsed data from the ads.txt string.
 // You can use the $adsTxt object to perform various operations on the ads.txt data.
 ```
+
+### Parsing AdsTxt from URL
+```php
+<?php
+
+use Badraxas\Adstxt\AdsTxtFetcher;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestFactoryInterface;
+
+// Assuming $client and $requestFactory are instances of ClientInterface and RequestFactoryInterface
+$fetcher = new AdsTxtFetcher($client, $requestFactory);
+
+try {
+    $adsTxt = $fetcher->fromUrl('https://example.com/ads.txt');
+    // You can now work with the $adsTxt instance containing the parsed data from the URL.
+} catch (\Badraxas\Adstxt\Exceptions\AdsTxtParser\UrlOpenException $exception) {
+    // Handle the URL open exception here.
+}
+```
+> #### PSR-18 and PSR-17 Compliance  
+> To ensure interoperability and standard-compliant HTTP messaging, the AdsTxtFetcher class requires a PSR-18 compliant HTTP client (ClientInterface) and a PSR-17 compliant HTTP request factory (RequestFactoryInterface).   
+> This design choice allows for flexibility in integrating the AdsTxtFetcher with various HTTP client implementations that conform to these PSR standards, ensuring a broad compatibility and the ability to easily swap different client implementations as needed.
+
+
 
 ### Working with AdsTxt Instance
 

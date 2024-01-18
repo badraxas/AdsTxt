@@ -28,7 +28,7 @@ class AdsTxtParser
      *
      * @throws FileOpenException if the file cannot be opened (check file permissions or path validity)
      */
-    public static function fromFile(string $path): AdsTxt
+    public function fromFile(string $path): AdsTxt
     {
         $handle = fopen($path, 'r');
 
@@ -40,7 +40,7 @@ class AdsTxtParser
 
         fclose($handle);
 
-        return self::fromString($content);
+        return $this->fromString($content);
     }
 
     /**
@@ -50,7 +50,7 @@ class AdsTxtParser
      *
      * @return AdsTxt returns an instance of AdsTxt containing the parsed data
      */
-    public static function fromString(string $adsTxtContent): AdsTxt
+    public function fromString(string $adsTxtContent): AdsTxt
     {
         $lines = explode(PHP_EOL, $adsTxtContent);
         $adsTxt = new AdsTxt();
