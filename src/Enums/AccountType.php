@@ -28,6 +28,8 @@ enum AccountType
      */
     public static function fromName(string $name): self
     {
+        $name = strtoupper($name);
+
         return constant("self::{$name}");
     }
 }
