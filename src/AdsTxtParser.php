@@ -4,6 +4,7 @@ namespace Badraxas\Adstxt;
 
 use Badraxas\Adstxt\Enums\Relationship;
 use Badraxas\Adstxt\Exceptions\AdsTxtParser\FileOpenException;
+use Badraxas\Adstxt\Exceptions\Lines\RecordArgumentException;
 use Badraxas\Adstxt\Lines\Blank;
 use Badraxas\Adstxt\Lines\Comment;
 use Badraxas\Adstxt\Lines\Invalid;
@@ -123,7 +124,9 @@ class AdsTxtParser
                 } else {
                     $adsTxt->addLine(new Invalid($line, 'Line appears invalid, it does not validate as a record, variable or comment', $comment));
                 }
-            } catch (\Throwable $t) {
+            } catch (\UnhandledMatchError $unhandledMatchError) {
+                $adsTxt->addLine(new Invalid($line, "Relationship value must be 'DIRECT' or 'RESELLER'.", $comment));
+            } catch (RecordArgumentException $t) {
                 $adsTxt->addLine(new Invalid($line, $t->getMessage(), $comment));
             }
         }

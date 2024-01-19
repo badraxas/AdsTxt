@@ -24,9 +24,10 @@ class Blank implements AdsTxtLineInterface
     /**
      * Compares the current Record object with another AdsTxtLineInterface object.
      *
-     * @param AdsTxtLineInterface $adsTxtLine The AdsTxtLineInterface object to compare with.
-     * @return bool Returns true if the provided object is an instance of Record and
-     *              its string representation is equal to the string representation of the current object.
+     * @param AdsTxtLineInterface $adsTxtLine the AdsTxtLineInterface object to compare with
+     *
+     * @return bool returns true if the provided object is an instance of Record and
+     *              its string representation is equal to the string representation of the current object
      */
     public function equals(AdsTxtLineInterface $adsTxtLine): bool
     {
