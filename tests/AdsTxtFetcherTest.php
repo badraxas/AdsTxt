@@ -2,8 +2,8 @@
 
 use Badraxas\Adstxt\AdsTxt;
 use Badraxas\Adstxt\AdsTxtFetcher;
-use Badraxas\Adstxt\Enums\AccountType;
-use Badraxas\Adstxt\Lines\Vendor;
+use Badraxas\Adstxt\Enums\Relationship;
+use Badraxas\Adstxt\Lines\Record;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Client\ClientInterface;
@@ -57,10 +57,10 @@ class AdsTxtFetcherTest extends TestCase
         $this->assertInstanceOf(AdsTxt::class, $result);
 
         $this->assertEquals((new AdsTxt())->addLine(
-            new Vendor(
+            new Record(
                 'exampleDomain.com',
                 '12345',
-                AccountType::DIRECT,
+                Relationship::DIRECT,
                 'd12345678f01234'
             )
         ), $result);

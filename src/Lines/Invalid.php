@@ -17,7 +17,7 @@ class Invalid implements AdsTxtLineInterface
      * @param string       $value   the value of the invalid line
      * @param null|Comment $comment the comment associated with the invalid line (optional)
      */
-    public function __construct(private readonly string $value, private readonly ?Comment $comment = null) {}
+    public function __construct(private readonly string $value, private string $reason, private readonly ?Comment $comment = null) {}
 
     /**
      * Get the string representation of the Invalid line.
@@ -33,8 +33,21 @@ class Invalid implements AdsTxtLineInterface
         return sprintf('%s%s', $this->value, $this->comment->__toString());
     }
 
+    /**
+     * Compares the current Record object with another AdsTxtLineInterface object.
+     *
+     * @param AdsTxtLineInterface $adsTxtLine The AdsTxtLineInterface object to compare with.
+     * @return bool Returns true if the provided object is an instance of Record and
+     *              its string representation is equal to the string representation of the current object.
+     */
     public function equals(AdsTxtLineInterface $adsTxtLine): bool
     {
         return $adsTxtLine instanceof Invalid && $adsTxtLine->__toString() === $this->__toString();
+    }
+
+
+    public function getReason(): string
+    {
+        return $this->reason;
     }
 }

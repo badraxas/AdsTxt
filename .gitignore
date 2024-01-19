@@ -16,6 +16,7 @@
 # Ignore PHPUnit files
 /coverage/
 .phpunit.result.cache
+.phpunit.cache
 
 # Ignore PHP-CS-Fixer files
 .php-cs-fixer.cache

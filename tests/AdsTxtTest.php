@@ -1,12 +1,12 @@
 <?php
 
 use Badraxas\Adstxt\AdsTxt;
-use Badraxas\Adstxt\Enums\AccountType;
+use Badraxas\Adstxt\Enums\Relationship;
 use Badraxas\Adstxt\Lines\Blank;
 use Badraxas\Adstxt\Lines\Comment;
 use Badraxas\Adstxt\Lines\Invalid;
+use Badraxas\Adstxt\Lines\Record;
 use Badraxas\Adstxt\Lines\Variable;
-use Badraxas\Adstxt\Lines\Vendor;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -21,8 +21,8 @@ class AdsTxtTest extends TestCase
         $adsTxt = new AdsTxt();
         $adsTxt
             ->addLine(new Comment(' ads.txt file for example.com:'))
-            ->addLine(new Vendor('greenadexchange.com', 12345, AccountType::DIRECT, 'd75815a79'))
-            ->addLine(new Vendor('blueadexchange.com', 'XF436', AccountType::DIRECT))
+            ->addLine(new Record('greenadexchange.com', 12345, Relationship::DIRECT, 'd75815a79'))
+            ->addLine(new Record('blueadexchange.com', 'XF436', Relationship::DIRECT))
             ->addLine(new Variable('subdomain', 'divisionone.example.com'))
         ;
 
@@ -37,9 +37,9 @@ subdomain=divisionone.example.com', $adsTxt->__toString());
         $adsTxt1 = new AdsTxt();
         $adsTxt2 = new AdsTxt();
 
-        $line1 = new Vendor('example.com', 'pub-123456789', AccountType::DIRECT, 'abc123');
-        $line2 = new Vendor('example.com', 'pub-987654321', AccountType::RESELLER, 'xyz456');
-        $line3 = new Vendor('example.com', 'pub-444555666', AccountType::DIRECT, 'def789');
+        $line1 = new Record('example.com', 'pub-123456789', Relationship::DIRECT, 'abc123');
+        $line2 = new Record('example.com', 'pub-987654321', Relationship::RESELLER, 'xyz456');
+        $line3 = new Record('example.com', 'pub-444555666', Relationship::DIRECT, 'def789');
 
         $adsTxt1->addLine($line1)->addLine($line2);
 
@@ -56,10 +56,10 @@ subdomain=divisionone.example.com', $adsTxt->__toString());
         $adsTxt1 = (new AdsTxt())
             ->addLine(new Comment(' First line of file'))
             ->addLine(new Blank())
-            ->addLine(new Vendor(
+            ->addLine(new Record(
                 'greenadexchange.com',
                 'XF436',
-                AccountType::DIRECT,
+                Relationship::DIRECT,
                 'd75815a79',
                 new Comment(' GreenAd certification ID')
             ))
@@ -69,10 +69,10 @@ subdomain=divisionone.example.com', $adsTxt->__toString());
         $adsTxt2 = (new AdsTxt())
             ->addLine(new Comment(' First line of file'))
             ->addLine(new Blank())
-            ->addLine(new Vendor(
+            ->addLine(new Record(
                 'greenadexchange.com',
                 'XF436',
-                AccountType::DIRECT,
+                Relationship::DIRECT,
                 'd75815a79',
                 new Comment(' GreenAd certification ID')
             ))
@@ -88,10 +88,10 @@ subdomain=divisionone.example.com', $adsTxt->__toString());
         $adsTxt = (new AdsTxt())
             ->addLine(new Comment(' First line of file'))
             ->addLine(new Blank())
-            ->addLine(new Vendor(
+            ->addLine(new Record(
                 'greenadexchange.com',
                 'XF436',
-                AccountType::DIRECT,
+                Relationship::DIRECT,
                 'd75815a79',
                 new Comment(' GreenAd certification ID')
             ))
@@ -99,31 +99,31 @@ subdomain=divisionone.example.com', $adsTxt->__toString());
         ;
 
         $adsTxtExpected = (new AdsTxt())
-            ->addLine(new Vendor(
+            ->addLine(new Record(
                 'greenadexchange.com',
                 'XF436',
-                AccountType::DIRECT,
+                Relationship::DIRECT,
                 'd75815a79',
                 new Comment(' GreenAd certification ID')
             ))
             ->addLine(new Variable('contact', 'contact@example.org'))
         ;
 
-        $this->assertEquals($adsTxtExpected, $adsTxt->filter(fn ($AdsTxtLine) => $AdsTxtLine instanceof Vendor || $AdsTxtLine instanceof Variable));
+        $this->assertEquals($adsTxtExpected, $adsTxt->filter(fn ($AdsTxtLine) => $AdsTxtLine instanceof Record || $AdsTxtLine instanceof Variable));
     }
 
     public function testInvalidLine(): void
     {
         $adsTxt = new AdsTxt();
-        $adsTxt->addLine(new Invalid('This line is invalid'))
+        $adsTxt->addLine(new Invalid('This line is invalid', 'Record contains less than 3 comma separated values and is therefore improperly formatted.'))
             ->addLine(new Comment(' This is a valid comment'))
-            ->addLine(new Invalid('This, Is Invalid'))
+            ->addLine(new Invalid('This, Is Invalid', 'Record contains less than 3 comma separated values and is therefore improperly formatted.'))
         ;
 
         $this->assertFalse($adsTxt->isValid());
         $this->assertEquals([
-            0 => new Invalid('This line is invalid'),
-            2 => new Invalid('This, Is Invalid'),
+            0 => new Invalid('This line is invalid', 'Record contains less than 3 comma separated values and is therefore improperly formatted.'),
+            2 => new Invalid('This, Is Invalid', 'Record contains less than 3 comma separated values and is therefore improperly formatted.'),
         ], $adsTxt->getInvalidLines());
     }
 
@@ -132,10 +132,10 @@ subdomain=divisionone.example.com', $adsTxt->__toString());
         $adsTxt1 = (new AdsTxt())
             ->addLine(new Comment(' First line of file'))
             ->addLine(new Blank())
-            ->addLine(new Vendor(
+            ->addLine(new Record(
                 'greenadexchange.com',
                 'XF436',
-                AccountType::DIRECT,
+                Relationship::DIRECT,
                 'd75815a79',
                 new Comment(' GreenAd certification ID')
             ))
@@ -144,10 +144,10 @@ subdomain=divisionone.example.com', $adsTxt->__toString());
 
         $adsTxt2 = (new AdsTxt())
             ->addLine(new Comment(' First line of file'))
-            ->addLine(new Vendor(
+            ->addLine(new Record(
                 'greenadexchange.com',
                 'XF436',
-                AccountType::DIRECT,
+                Relationship::DIRECT,
                 'd75815a79',
                 new Comment(' GreenAd certification ID')
             ))

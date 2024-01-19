@@ -2,13 +2,13 @@
 
 namespace Badraxas\Adstxt;
 
-use Badraxas\Adstxt\Enums\AccountType;
+use Badraxas\Adstxt\Enums\Relationship;
 use Badraxas\Adstxt\Exceptions\AdsTxtParser\FileOpenException;
 use Badraxas\Adstxt\Lines\Blank;
 use Badraxas\Adstxt\Lines\Comment;
 use Badraxas\Adstxt\Lines\Invalid;
+use Badraxas\Adstxt\Lines\Record;
 use Badraxas\Adstxt\Lines\Variable;
-use Badraxas\Adstxt\Lines\Vendor;
 
 /**
  * Class AdsTxtParser.
@@ -74,46 +74,57 @@ class AdsTxtParser
 
                     continue;
                 }
+
                 $comment = new Comment(rtrim($exploded_line[1]));
                 $line = trim($exploded_line[0]);
             }
 
-            if (str_contains($line, ',')) {
-                $exploded_line = explode(',', $line);
-                $exploded_line = array_map('trim', $exploded_line);
+            try {
+                if (str_contains($line, ',')) {
+                    $exploded_line = explode(',', $line);
+                    $exploded_line = array_map('trim', $exploded_line);
 
-                $fieldsCount = count($exploded_line);
+                    $fieldsCount = count($exploded_line);
 
-                if (3 != $fieldsCount && 4 != $fieldsCount) {
-                    $adsTxt->addLine(new Invalid($line, $comment));
+                    if ($fieldsCount < 3) {
+                        $adsTxt->addLine(new Invalid($line, 'Record contains less than 3 comma separated values and is therefore improperly formatted.', $comment));
 
-                    continue;
+                        continue;
+                    }
+
+                    if ($fieldsCount > 4) {
+                        $adsTxt->addLine(new Invalid($line, 'Record contains more than 4 comma separated values and is therefore improperly formatted', $comment));
+
+                        continue;
+                    }
+
+                    $adsTxt->addLine(new Record(
+                        domain: $exploded_line[0],
+                        publisherId: $exploded_line[1],
+                        relationship: Relationship::fromName($exploded_line[2]),
+                        certificationId: $exploded_line[3] ?? null,
+                        comment: $comment
+                    ));
+                } elseif (str_contains($line, '=')) {
+                    $exploded_line = explode('=', $line);
+                    $exploded_line = array_map('trim', $exploded_line);
+
+                    if (2 != count($exploded_line)) {
+                        $adsTxt->addLine(new Invalid($line, 'Line appears invalid, it does not validate as a record, variable or comment', $comment));
+
+                        continue;
+                    }
+
+                    $adsTxt->addLine(new Variable(
+                        name: $exploded_line[0],
+                        value: $exploded_line[1],
+                        comment: $comment
+                    ));
+                } else {
+                    $adsTxt->addLine(new Invalid($line, 'Line appears invalid, it does not validate as a record, variable or comment', $comment));
                 }
-
-                $adsTxt->addLine(new Vendor(
-                    domain: $exploded_line[0],
-                    publisherId: $exploded_line[1],
-                    accountType: AccountType::fromName($exploded_line[2]),
-                    certificationId: $exploded_line[3] ?? null,
-                    comment: $comment
-                ));
-            } elseif (str_contains($line, '=')) {
-                $exploded_line = explode('=', $line);
-                $exploded_line = array_map('trim', $exploded_line);
-
-                if (2 != count($exploded_line)) {
-                    $adsTxt->addLine(new Invalid($line, $comment));
-
-                    continue;
-                }
-
-                $adsTxt->addLine(new Variable(
-                    name: $exploded_line[0],
-                    value: $exploded_line[1],
-                    comment: $comment
-                ));
-            } else {
-                $adsTxt->addLine(new Invalid($line, $comment));
+            } catch (\Throwable $t) {
+                $adsTxt->addLine(new Invalid($line, $t->getMessage(), $comment));
             }
         }
 

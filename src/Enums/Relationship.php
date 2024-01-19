@@ -3,11 +3,11 @@
 namespace Badraxas\Adstxt\Enums;
 
 /**
- * Class AccountType.
+ * Class Relationship.
  *
  * Represents an enumeration for the types of accounts in the ads.txt file.
  */
-enum AccountType
+enum Relationship
 {
     /**
      * Represents the DIRECT account type in the ads.txt file.
@@ -20,16 +20,19 @@ enum AccountType
     case RESELLER;
 
     /**
-     * Get the AccountType enum value from its name.
+     * Get the Relationship enum value from its name.
      *
      * @param string $name the name of the account type
      *
-     * @return self returns the AccountType enum value corresponding to the given name
+     * @return self returns the Relationship enum value corresponding to the given name
      */
     public static function fromName(string $name): self
     {
         $name = strtoupper($name);
 
-        return constant("self::{$name}");
+        return match ($name) {
+            'DIRECT' => Relationship::DIRECT,
+            'RESELLER' => Relationship::RESELLER,
+        };
     }
 }

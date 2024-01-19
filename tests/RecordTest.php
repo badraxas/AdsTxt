@@ -1,8 +1,8 @@
 <?php
 
-use Badraxas\Adstxt\Enums\AccountType;
+use Badraxas\Adstxt\Enums\Relationship;
 use Badraxas\Adstxt\Lines\Comment;
-use Badraxas\Adstxt\Lines\Vendor;
+use Badraxas\Adstxt\Lines\Record;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -10,13 +10,13 @@ use PHPUnit\Framework\TestCase;
  *
  * @coversNothing
  */
-class VendorTest extends TestCase
+class RecordTest extends TestCase
 {
     public function testVendorEquality(): void
     {
-        $vendor1 = new Vendor('greenadexchange.com', 'XF436', AccountType::DIRECT, comment: new Comment(' Comment without certification ID'));
-        $vendor2 = new Vendor('greenadexchange.com', 'XF436', AccountType::DIRECT, comment: new Comment(' Comment without certification ID'));
-        $vendor3 = new Vendor('greenadexchange.com', 42, AccountType::DIRECT, comment: new Comment(' Comment without certification ID'));
+        $vendor1 = new Record('greenadexchange.com', 'XF436', Relationship::DIRECT, comment: new Comment(' Comment without certification ID'));
+        $vendor2 = new Record('greenadexchange.com', 'XF436', Relationship::DIRECT, comment: new Comment(' Comment without certification ID'));
+        $vendor3 = new Record('greenadexchange.com', 42, Relationship::DIRECT, comment: new Comment(' Comment without certification ID'));
 
         $this->assertTrue($vendor1->equals($vendor2));
         $this->assertTrue($vendor2->equals($vendor2));
@@ -26,19 +26,19 @@ class VendorTest extends TestCase
 
     public function testVendorOutput(): void
     {
-        $variable = new Vendor('greenadexchange.com', 12345, AccountType::DIRECT, 'd75815a79');
+        $variable = new Record('greenadexchange.com', 12345, Relationship::DIRECT, 'd75815a79');
         $this->assertEquals('greenadexchange.com, 12345, DIRECT, d75815a79', $variable->__toString());
     }
 
     public function testVendorOutputWithComment(): void
     {
-        $variable = new Vendor('greenadexchange.com', 'XF436', AccountType::DIRECT, 'd75815a79', new Comment(' GreenAd certification ID'));
+        $variable = new Record('greenadexchange.com', 'XF436', Relationship::DIRECT, 'd75815a79', new Comment(' GreenAd certification ID'));
         $this->assertEquals('greenadexchange.com, XF436, DIRECT, d75815a79 # GreenAd certification ID', $variable->__toString());
     }
 
     public function testVendorOutputWithCommentWithoutCertificationId(): void
     {
-        $variable = new Vendor('greenadexchange.com', 'XF436', AccountType::DIRECT, comment: new Comment(' Comment without certification ID'));
+        $variable = new Record('greenadexchange.com', 'XF436', Relationship::DIRECT, comment: new Comment(' Comment without certification ID'));
         $this->assertEquals('greenadexchange.com, XF436, DIRECT # Comment without certification ID', $variable->__toString());
     }
 }

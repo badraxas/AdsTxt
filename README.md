@@ -94,8 +94,8 @@ try {
 <?php
 
 use Badraxas\Adstxt\AdsTxt;
-use Badraxas\Adstxt\Enums\AccountType;
-use Badraxas\Adstxt\Lines\Vendor;
+use Badraxas\Adstxt\Enums\Relationship;
+use Badraxas\Adstxt\Lines\Record;
 use Badraxas\Adstxt\Lines\Comment;
 use Badraxas\Adstxt\Lines\Variable;
 
@@ -106,7 +106,7 @@ $isAdsTxtValid = $adsTxt->isValid();
 // Add custom filtering using callback
 $filteredAdsTxt = $adsTxt->filter(function ($line) {
     // Your custom filtering logic here
-    return $line instanceof Vendor; // Return true if the line should be included, false otherwise
+    return $line instanceof Record; // Return true if the line should be included, false otherwise
 });
 
 // Compare the current AdsTxt instance with another AdsTxt instance and return the lines that are missing.
@@ -118,7 +118,7 @@ $missingLines = $adsTxt->diff($otherAdsTxt);
 $newAdsTxt = new AdsTxt();
 $newAdsTxt
     ->addLine(new Comment(' app-ads.txt file for vMVPD B:'))
-    ->addLine(new Vendor('ssp.com', 'vwxyz', AccountType::DIRECT))
+    ->addLine(new Record('ssp.com', 'vwxyz', Relationship::DIRECT))
     ->addLine(new Variable('inventorypartnerdomain', 'programmerA.com'))
 
 // display ads.txt as string
@@ -133,14 +133,14 @@ The Vendor line represents a line in the ads.txt file containing vendor informat
 ```php
 <?php
 
-use Badraxas\Adstxt\Lines\Vendor;
-use Badraxas\Adstxt\Enums\AccountType;
+use Badraxas\Adstxt\Lines\Record;
+use Badraxas\Adstxt\Enums\Relationship;
 
 // Creating a Vendor line instance
-$vendorLine = new Vendor(
+$vendorLine = new Record(
   domain: 'example.com',
   publisherId: '123456',
-  accountType: AccountType::DIRECT,
+  relationship: Relationship::DIRECT,
   certificationId: 'ABCD1234',
   comment: null
 );
