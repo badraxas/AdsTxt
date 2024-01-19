@@ -9,11 +9,6 @@ use Badraxas\Adstxt\Lines\Record;
 use Badraxas\Adstxt\Lines\Variable;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- *
- * @coversNothing
- */
 class AdsTxtTest extends TestCase
 {
     public function testAdsTxtOutput(): void
@@ -38,7 +33,7 @@ subdomain=divisionone.example.com', $adsTxt->__toString());
         $adsTxt2 = new AdsTxt();
 
         $line1 = new Record('example.com', 'pub-123456789', Relationship::DIRECT, 'abc123');
-        $line2 = new Record('example.com', 'pub-987654321', Relationship::RESELLER, 'xyz456');
+        $line2 = new Record('example.com', 'pub-987654321', Relationship::RESELLER, 'afe456');
         $line3 = new Record('example.com', 'pub-444555666', Relationship::DIRECT, 'def789');
 
         $adsTxt1->addLine($line1)->addLine($line2);
@@ -151,6 +146,44 @@ subdomain=divisionone.example.com', $adsTxt->__toString());
                 'd75815a79',
                 new Comment(' GreenAd certification ID')
             ))
+            ->addLine(new Variable('contact', 'contact@example.org'))
+        ;
+
+        $this->assertFalse($adsTxt1->equals($adsTxt2));
+        $this->assertFalse($adsTxt2->equals($adsTxt1));
+
+        $adsTxt1 = (new AdsTxt())
+            ->addLine(new Comment(' First line of file'))
+            ->addLine(new Record(
+                'greenadexcange.com',
+                'XF436',
+                Relationship::DIRECT,
+                'd75815a79',
+                new Comment(' GreenAd certification ID')
+            ))
+            ->addLine(new Variable('contact', 'contact@example.org'))
+        ;
+
+        $adsTxt2 = (new AdsTxt())
+            ->addLine(new Comment(' First line of file'))
+            ->addLine(new Record(
+                'greenadexchange.com',
+                'XF436',
+                Relationship::DIRECT,
+                'd75815a79',
+                new Comment(' GreenAd certification ID')
+            ))
+            ->addLine(new Variable('contact', 'contact@example.org'))
+        ;
+
+        $this->assertFalse($adsTxt1->equals($adsTxt2));
+        $this->assertFalse($adsTxt2->equals($adsTxt1));
+
+        $adsTxt1 = (new AdsTxt())
+            ->addLine(new Invalid('@@@@@', 'Wrong format'))
+        ;
+
+        $adsTxt2 = (new AdsTxt())
             ->addLine(new Variable('contact', 'contact@example.org'))
         ;
 

@@ -69,22 +69,22 @@ class Record implements AdsTxtLineInterface
 
     private function validateCertificationId(): void
     {
-        if (isset($this->certificationId) && !preg_match('/[a-f0-9]+/i', $this->certificationId)) {
-            throw new RecordArgumentException(sprintf('Invalid certification ID "%s"', $this->certificationId));
+        if (isset($this->certificationId) && !preg_match('/^[a-f0-9]+$/i', $this->certificationId)) {
+            throw new RecordArgumentException(sprintf('Invalid certification ID "%s".', $this->certificationId));
         }
     }
 
     private function validateDomain(): void
     {
         if (!filter_var($this->domain, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME)) {
-            throw new RecordArgumentException(sprintf('Domain "%s" does not appear valid', $this->domain));
+            throw new RecordArgumentException(sprintf('Domain "%s" does not appear valid.', $this->domain));
         }
     }
 
     private function validatePublisherId(): void
     {
-        if (empty($this->publisherId) || !preg_match('/[a-z0-9-]+/i', $this->publisherId)) {
-            throw new RecordArgumentException(sprintf('Publisher ID "%s" contains invalid characters', $this->publisherId));
+        if (empty($this->publisherId) || !preg_match('/^[a-z0-9-]+$/i', $this->publisherId)) {
+            throw new RecordArgumentException(sprintf('Publisher ID "%s" contains invalid characters.', $this->publisherId));
         }
     }
 }

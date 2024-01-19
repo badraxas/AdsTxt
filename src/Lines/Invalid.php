@@ -30,7 +30,7 @@ class Invalid implements AdsTxtLineInterface
             return $this->value;
         }
 
-        return sprintf('%s%s', $this->value, $this->comment->__toString());
+        return sprintf('%s %s', $this->value, $this->comment->__toString());
     }
 
     /**

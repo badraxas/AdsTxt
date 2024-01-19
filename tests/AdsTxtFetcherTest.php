@@ -3,6 +3,7 @@
 use Badraxas\Adstxt\AdsTxt;
 use Badraxas\Adstxt\AdsTxtFetcher;
 use Badraxas\Adstxt\Enums\Relationship;
+use Badraxas\Adstxt\Exceptions\AdsTxtParser\UrlOpenException;
 use Badraxas\Adstxt\Lines\Record;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
@@ -12,11 +13,6 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
-/**
- * @internal
- *
- * @coversNothing
- */
 class AdsTxtFetcherTest extends TestCase
 {
     /**
@@ -64,5 +60,29 @@ class AdsTxtFetcherTest extends TestCase
                 'd12345678f01234'
             )
         ), $result);
+    }
+
+    public function testParseFromUrlInvalidUrl(): void
+    {
+        $clientMock = $this->createMock(ClientInterface::class);
+        $requestFactoryMock = $this->createMock(RequestFactoryInterface::class);
+        $requestMock = $this->createMock(RequestInterface::class);
+        $responseMock = $this->createMock(ResponseInterface::class);
+        $streamMock = $this->createMock(StreamInterface::class);
+
+        $requestFactoryMock->method('createRequest')
+            ->willReturn($requestMock)
+        ;
+        $clientMock->method('sendRequest')
+            ->willReturn($responseMock)
+        ;
+        $responseMock->method('getStatusCode')
+            ->willReturn(404)
+        ;
+
+        $fetcher = new AdsTxtFetcher($clientMock, $requestFactoryMock);
+
+        $this->expectException(UrlOpenException::class);
+        $fetcher->fromUrl('https://example.com/ads.txt');
     }
 }

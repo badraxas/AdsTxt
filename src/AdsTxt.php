@@ -98,16 +98,16 @@ class AdsTxt implements \Stringable
             return false;
         }
 
+        // Check if both instances have the same validity status
+        if ($this->valid !== $other->isValid()) {
+            return false;
+        }
+
         // Compare each line of the two AdsTxt instances
         foreach ($this->lines as $index => $line) {
             if (!$line->equals($other->getLines()[$index])) {
                 return false;
             }
-        }
-
-        // Check if both instances have the same validity status
-        if ($this->valid !== $other->isValid()) {
-            return false;
         }
 
         return true;

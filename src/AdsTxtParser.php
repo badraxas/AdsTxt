@@ -111,7 +111,7 @@ class AdsTxtParser
                     $exploded_line = array_map('trim', $exploded_line);
 
                     if (2 != count($exploded_line)) {
-                        $adsTxt->addLine(new Invalid($line, 'Line appears invalid, it does not validate as a record, variable or comment', $comment));
+                        $adsTxt->addLine(new Invalid($line, 'Line appears invalid, it does not validate as a record, variable or comment.', $comment));
 
                         continue;
                     }
@@ -122,7 +122,7 @@ class AdsTxtParser
                         comment: $comment
                     ));
                 } else {
-                    $adsTxt->addLine(new Invalid($line, 'Line appears invalid, it does not validate as a record, variable or comment', $comment));
+                    $adsTxt->addLine(new Invalid($line, 'Line appears invalid, it does not validate as a record, variable or comment.', $comment));
                 }
             } catch (\UnhandledMatchError $unhandledMatchError) {
                 $adsTxt->addLine(new Invalid($line, "Relationship value must be 'DIRECT' or 'RESELLER'.", $comment));

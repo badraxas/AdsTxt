@@ -1,15 +1,11 @@
 <?php
 
 use Badraxas\Adstxt\Enums\Relationship;
+use Badraxas\Adstxt\Exceptions\Lines\RecordArgumentException;
 use Badraxas\Adstxt\Lines\Comment;
 use Badraxas\Adstxt\Lines\Record;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- *
- * @coversNothing
- */
 class RecordTest extends TestCase
 {
     public function testVendorEquality(): void
@@ -40,5 +36,23 @@ class RecordTest extends TestCase
     {
         $variable = new Record('greenadexchange.com', 'XF436', Relationship::DIRECT, comment: new Comment(' Comment without certification ID'));
         $this->assertEquals('greenadexchange.com, XF436, DIRECT # Comment without certification ID', $variable->__toString());
+    }
+
+    public function testRecordInvalidDomain(): void
+    {
+        $this->expectException(RecordArgumentException::class);
+        new Record('domain@domain.com', 'AZER', Relationship::DIRECT, 'az81');
+    }
+
+    public function testRecordInvalidPublisherId(): void
+    {
+        $this->expectException(RecordArgumentException::class);
+        new Record('domain.com', 'Inv@lid', Relationship::DIRECT, 'az81');
+    }
+
+    public function testRecordInvalidCertificationId(): void
+    {
+        $this->expectException(RecordArgumentException::class);
+        new Record('domain.com', 1034, Relationship::DIRECT, 'zzz');
     }
 }
