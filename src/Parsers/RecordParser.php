@@ -23,6 +23,8 @@ class RecordParser implements ParserInterface
             $line = trim($exploded_line[0]);
         }
 
+        $line = rtrim($line, ',');
+
         $exploded_line = explode(',', $line);
         $exploded_line = array_map('trim', $exploded_line);
 
