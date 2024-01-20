@@ -28,7 +28,7 @@ class AdsTxtParserTest extends TestCase
         $adsTxt = $adsTxtParser->fromFile(__DIR__.'/test_files/ads.txt');
         $adsTxtReference = (new AdsTxt())
             ->addLine(new Comment(' ads.txt file for divisionone.example.com:'))
-            ->addLine(new Record('silverssp.com', 5569, Relationship::DIRECT, 'f496211'))
+            ->addLine(new Record('silverssp.com', 5569, Relationship::DIRECT, 'f496211f496211'))
             ->addLine(new Record('orangeexchange.com', 'AB345', Relationship::RESELLER))
         ;
 

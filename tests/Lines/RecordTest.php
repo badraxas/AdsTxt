@@ -15,12 +15,12 @@ class RecordTest extends TestCase
 {
     public function testGetters(): void
     {
-        $record = new Record('domain.com', 1034, Relationship::DIRECT, 'ae45', new Comment(' a nice comment!'));
+        $record = new Record('domain.com', 1034, Relationship::DIRECT, 'aed12b962', new Comment(' a nice comment!'));
 
         $this->assertEquals('domain.com', $record->getDomain());
         $this->assertEquals(1034, $record->getPublisherId());
         $this->assertEquals(Relationship::DIRECT, $record->getRelationship());
-        $this->assertEquals('ae45', $record->getCertificationId());
+        $this->assertEquals('aed12b962', $record->getCertificationId());
         $this->assertEquals(new Comment(' a nice comment!'), $record->getComment());
     }
 

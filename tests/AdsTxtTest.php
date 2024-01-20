@@ -35,9 +35,9 @@ subdomain=divisionone.example.com', $adsTxt->__toString());
         $adsTxt1 = new AdsTxt();
         $adsTxt2 = new AdsTxt();
 
-        $line1 = new Record('example.com', 'pub-123456789', Relationship::DIRECT, 'abc123');
-        $line2 = new Record('example.com', 'pub-987654321', Relationship::RESELLER, 'afe456');
-        $line3 = new Record('example.com', 'pub-444555666', Relationship::DIRECT, 'def789');
+        $line1 = new Record('example.com', 'pub-123456789', Relationship::DIRECT, 'abcdef12345');
+        $line2 = new Record('example.com', 'pub-987654321', Relationship::RESELLER, '12345abcdef');
+        $line3 = new Record('example.com', 'pub-444555666', Relationship::DIRECT, 'abcddef789');
 
         $adsTxt1->addLine($line1)->addLine($line2);
 

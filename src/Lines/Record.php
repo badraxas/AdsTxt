@@ -94,8 +94,8 @@ class Record implements AdsTxtLineInterface
 
     private function validateCertificationId(): void
     {
-        if (isset($this->certificationId) && !preg_match('/^[a-f0-9]+$/i', $this->certificationId)) {
-            throw new RecordArgumentException(sprintf('Invalid certification ID "%s".', $this->certificationId));
+        if (isset($this->certificationId) && !preg_match('/^[a-f0-9]{9,16}$/', $this->certificationId)) {
+            throw new RecordArgumentException(sprintf('Certification authority ID "%s" is invalid. It may only contain numbers and lowercase letters, and must be 9 or 16 characters.', $this->certificationId));
         }
     }
 
