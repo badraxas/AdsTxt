@@ -34,31 +34,6 @@ class Record implements AdsTxtLineInterface
         $this->validateCertificationId();
     }
 
-    public function getDomain(): string
-    {
-        return $this->domain;
-    }
-
-    public function getPublisherId(): mixed
-    {
-        return $this->publisherId;
-    }
-
-    public function getRelationship(): Relationship
-    {
-        return $this->relationship;
-    }
-
-    public function getCertificationId(): mixed
-    {
-        return $this->certificationId;
-    }
-
-    public function getComment(): ?Comment
-    {
-        return $this->comment;
-    }
-
     /**
      * Get the string representation of the Record line.
      *
@@ -92,6 +67,31 @@ class Record implements AdsTxtLineInterface
         return $adsTxtLine instanceof Record && $adsTxtLine->__toString() === $this->__toString();
     }
 
+    public function getCertificationId(): mixed
+    {
+        return $this->certificationId;
+    }
+
+    public function getComment(): ?Comment
+    {
+        return $this->comment;
+    }
+
+    public function getDomain(): string
+    {
+        return $this->domain;
+    }
+
+    public function getPublisherId(): mixed
+    {
+        return $this->publisherId;
+    }
+
+    public function getRelationship(): Relationship
+    {
+        return $this->relationship;
+    }
+
     private function validateCertificationId(): void
     {
         if (isset($this->certificationId) && !preg_match('/^[a-f0-9]+$/i', $this->certificationId)) {
@@ -101,7 +101,8 @@ class Record implements AdsTxtLineInterface
 
     private function validateDomain(): void
     {
-        if (!filter_var($this->domain, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME)) {
+        // We check if the domain is valid and if the domain had a dot (we don't validate localhost)
+        if (!filter_var($this->domain, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME) || !str_contains($this->domain, '.')) {
             throw new RecordArgumentException(sprintf('Domain "%s" does not appear valid.', $this->domain));
         }
     }

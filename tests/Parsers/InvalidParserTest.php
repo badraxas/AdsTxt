@@ -4,10 +4,12 @@ namespace Parsers;
 
 use Badraxas\Adstxt\Lines\Comment;
 use Badraxas\Adstxt\Lines\Invalid;
-use Badraxas\Adstxt\Parsers\CommentParser;
 use Badraxas\Adstxt\Parsers\InvalidParser;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 final class InvalidParserTest extends TestCase
 {
     public function testInvalidParsing(): void

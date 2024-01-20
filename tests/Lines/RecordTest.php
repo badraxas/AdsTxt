@@ -8,8 +8,40 @@ use Badraxas\Adstxt\Lines\Comment;
 use Badraxas\Adstxt\Lines\Record;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 class RecordTest extends TestCase
 {
+    public function testGetters(): void
+    {
+        $record = new Record('domain.com', 1034, Relationship::DIRECT, 'ae45', new Comment(' a nice comment!'));
+
+        $this->assertEquals('domain.com', $record->getDomain());
+        $this->assertEquals(1034, $record->getPublisherId());
+        $this->assertEquals(Relationship::DIRECT, $record->getRelationship());
+        $this->assertEquals('ae45', $record->getCertificationId());
+        $this->assertEquals(new Comment(' a nice comment!'), $record->getComment());
+    }
+
+    public function testRecordInvalidCertificationId(): void
+    {
+        $this->expectException(RecordArgumentException::class);
+        new Record('domain.com', 1034, Relationship::DIRECT, 'zzz');
+    }
+
+    public function testRecordInvalidDomain(): void
+    {
+        $this->expectException(RecordArgumentException::class);
+        new Record('domain@domain.com', 'AZER', Relationship::DIRECT, 'az81');
+    }
+
+    public function testRecordInvalidPublisherId(): void
+    {
+        $this->expectException(RecordArgumentException::class);
+        new Record('domain.com', 'Inv@lid', Relationship::DIRECT, 'az81');
+    }
+
     public function testVendorEquality(): void
     {
         $vendor1 = new Record('greenadexchange.com', 'XF436', Relationship::DIRECT, comment: new Comment(' Comment without certification ID'));
@@ -40,21 +72,9 @@ class RecordTest extends TestCase
         $this->assertEquals('greenadexchange.com, XF436, DIRECT # Comment without certification ID', $variable->__toString());
     }
 
-    public function testRecordInvalidDomain(): void
+    public function testInvalidateDomainWithoutDot(): void
     {
         $this->expectException(RecordArgumentException::class);
-        new Record('domain@domain.com', 'AZER', Relationship::DIRECT, 'az81');
-    }
-
-    public function testRecordInvalidPublisherId(): void
-    {
-        $this->expectException(RecordArgumentException::class);
-        new Record('domain.com', 'Inv@lid', Relationship::DIRECT, 'az81');
-    }
-
-    public function testRecordInvalidCertificationId(): void
-    {
-        $this->expectException(RecordArgumentException::class);
-        new Record('domain.com', 1034, Relationship::DIRECT, 'zzz');
+        new Record('appnexuscom', 1234, Relationship::DIRECT);
     }
 }

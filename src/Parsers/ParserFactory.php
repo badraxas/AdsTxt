@@ -3,7 +3,6 @@
 namespace Badraxas\Adstxt\Parsers;
 
 use Badraxas\Adstxt\Interfaces\ParserInterface;
-use Badraxas\Adstxt\Lines\Invalid;
 
 class ParserFactory
 {
@@ -13,7 +12,7 @@ class ParserFactory
             return new CommentParser();
         }
 
-        [$line, ] = explode('#', $line);
+        [$line] = explode('#', $line);
 
         if (str_contains($line, '=')) {
             return new VariableParser();

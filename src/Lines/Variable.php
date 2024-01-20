@@ -34,21 +34,6 @@ class Variable implements AdsTxtLineInterface
         return sprintf('%s=%s %s', $this->name, $this->value, $this->comment->__toString());
     }
 
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function getValue(): mixed
-    {
-        return $this->value;
-    }
-
-    public function getComment(): ?Comment
-    {
-        return $this->comment;
-    }
-
     /**
      * Compares the current Record object with another AdsTxtLineInterface object.
      *
@@ -60,5 +45,20 @@ class Variable implements AdsTxtLineInterface
     public function equals(AdsTxtLineInterface $adsTxtLine): bool
     {
         return $adsTxtLine instanceof Variable && $adsTxtLine->__toString() === $this->__toString();
+    }
+
+    public function getComment(): ?Comment
+    {
+        return $this->comment;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getValue(): mixed
+    {
+        return $this->value;
     }
 }

@@ -9,6 +9,9 @@ use Badraxas\Adstxt\Lines\Record;
 use Badraxas\Adstxt\Lines\Variable;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 class AdsTxtTest extends TestCase
 {
     public function testAdsTxtOutput(): void

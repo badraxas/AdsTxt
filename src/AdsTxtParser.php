@@ -2,14 +2,8 @@
 
 namespace Badraxas\Adstxt;
 
-use Badraxas\Adstxt\Enums\Relationship;
 use Badraxas\Adstxt\Exceptions\AdsTxtParser\FileOpenException;
-use Badraxas\Adstxt\Exceptions\Lines\RecordArgumentException;
 use Badraxas\Adstxt\Lines\Blank;
-use Badraxas\Adstxt\Lines\Comment;
-use Badraxas\Adstxt\Lines\Invalid;
-use Badraxas\Adstxt\Lines\Record;
-use Badraxas\Adstxt\Lines\Variable;
 use Badraxas\Adstxt\Parsers\ParserFactory;
 
 /**
