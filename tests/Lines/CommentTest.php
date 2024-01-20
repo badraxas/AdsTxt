@@ -1,5 +1,7 @@
 <?php
 
+namespace Lines;
+
 use Badraxas\Adstxt\Lines\Comment;
 use PHPUnit\Framework\TestCase;
 

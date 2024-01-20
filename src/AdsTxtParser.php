@@ -10,6 +10,7 @@ use Badraxas\Adstxt\Lines\Comment;
 use Badraxas\Adstxt\Lines\Invalid;
 use Badraxas\Adstxt\Lines\Record;
 use Badraxas\Adstxt\Lines\Variable;
+use Badraxas\Adstxt\Parsers\ParserFactory;
 
 /**
  * Class AdsTxtParser.
@@ -65,70 +66,9 @@ class AdsTxtParser
                 continue;
             }
 
-            $comment = null;
+            $parser = ParserFactory::getParser($line);
 
-            if (str_contains($line, '#')) {
-                $exploded_line = explode('#', $line);
-
-                if (str_starts_with($line, '#')) {
-                    $adsTxt->addLine(new Comment(rtrim(mb_strcut($line, 1))));
-
-                    continue;
-                }
-
-                $comment = new Comment(rtrim($exploded_line[1]));
-                $line = trim($exploded_line[0]);
-            }
-
-            try {
-                if (str_contains($line, ',')) {
-                    $exploded_line = explode(',', $line);
-                    $exploded_line = array_map('trim', $exploded_line);
-
-                    $fieldsCount = count($exploded_line);
-
-                    if ($fieldsCount < 3) {
-                        $adsTxt->addLine(new Invalid($line, 'Record contains less than 3 comma separated values and is therefore improperly formatted.', $comment));
-
-                        continue;
-                    }
-
-                    if ($fieldsCount > 4) {
-                        $adsTxt->addLine(new Invalid($line, 'Record contains more than 4 comma separated values and is therefore improperly formatted', $comment));
-
-                        continue;
-                    }
-
-                    $adsTxt->addLine(new Record(
-                        domain: $exploded_line[0],
-                        publisherId: $exploded_line[1],
-                        relationship: Relationship::fromName($exploded_line[2]),
-                        certificationId: $exploded_line[3] ?? null,
-                        comment: $comment
-                    ));
-                } elseif (str_contains($line, '=')) {
-                    $exploded_line = explode('=', $line);
-                    $exploded_line = array_map('trim', $exploded_line);
-
-                    if (2 != count($exploded_line)) {
-                        $adsTxt->addLine(new Invalid($line, 'Line appears invalid, it does not validate as a record, variable or comment.', $comment));
-
-                        continue;
-                    }
-
-                    $adsTxt->addLine(new Variable(
-                        name: $exploded_line[0],
-                        value: $exploded_line[1],
-                        comment: $comment
-                    ));
-                } else {
-                    $adsTxt->addLine(new Invalid($line, 'Line appears invalid, it does not validate as a record, variable or comment.', $comment));
-                }
-            } catch (\UnhandledMatchError $unhandledMatchError) {
-                $adsTxt->addLine(new Invalid($line, "Relationship value must be 'DIRECT' or 'RESELLER'.", $comment));
-            } catch (RecordArgumentException $t) {
-                $adsTxt->addLine(new Invalid($line, $t->getMessage(), $comment));
-            }
+            $adsTxt->addLine($parser->parse($line));
         }
 
         return $adsTxt;

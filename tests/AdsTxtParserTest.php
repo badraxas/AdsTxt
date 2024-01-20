@@ -33,7 +33,7 @@ class AdsTxtParserTest extends TestCase
         $adsTxtParser = new AdsTxtParser();
 
         $this->expectException(FileOpenException::class);
-        $adsTxtParser->fromFile(__DIR__.'/test_files/missing_ads.txt');
+        @$adsTxtParser->fromFile(__DIR__.'/test_files/missing_ads.txt');
     }
 
     public function testParseFromString(): void
