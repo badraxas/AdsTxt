@@ -28,6 +28,11 @@ class Comment implements AdsTxtLineInterface
         return sprintf('#%s', $this->comment);
     }
 
+    public function getComment(): string
+    {
+        return $this->comment;
+    }
+
     /**
      * Compares the current Record object with another AdsTxtLineInterface object.
      *

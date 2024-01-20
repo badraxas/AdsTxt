@@ -34,6 +34,31 @@ class Record implements AdsTxtLineInterface
         $this->validateCertificationId();
     }
 
+    public function getDomain(): string
+    {
+        return $this->domain;
+    }
+
+    public function getPublisherId(): mixed
+    {
+        return $this->publisherId;
+    }
+
+    public function getRelationship(): Relationship
+    {
+        return $this->relationship;
+    }
+
+    public function getCertificationId(): mixed
+    {
+        return $this->certificationId;
+    }
+
+    public function getComment(): ?Comment
+    {
+        return $this->comment;
+    }
+
     /**
      * Get the string representation of the Record line.
      *

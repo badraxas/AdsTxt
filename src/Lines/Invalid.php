@@ -33,6 +33,16 @@ class Invalid implements AdsTxtLineInterface
         return sprintf('%s %s', $this->value, $this->comment->__toString());
     }
 
+    public function getValue(): string
+    {
+        return $this->value;
+    }
+
+    public function getComment(): ?Comment
+    {
+        return $this->comment;
+    }
+
     /**
      * Compares the current Record object with another AdsTxtLineInterface object.
      *
