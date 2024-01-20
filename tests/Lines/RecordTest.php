@@ -24,6 +24,12 @@ class RecordTest extends TestCase
         $this->assertEquals(new Comment(' a nice comment!'), $record->getComment());
     }
 
+    public function testInvalidateDomainWithoutDot(): void
+    {
+        $this->expectException(RecordArgumentException::class);
+        new Record('appnexuscom', 1234, Relationship::DIRECT);
+    }
+
     public function testRecordInvalidCertificationId(): void
     {
         $this->expectException(RecordArgumentException::class);
@@ -70,11 +76,5 @@ class RecordTest extends TestCase
     {
         $variable = new Record('greenadexchange.com', 'XF436', Relationship::DIRECT, comment: new Comment(' Comment without certification ID'));
         $this->assertEquals('greenadexchange.com, XF436, DIRECT # Comment without certification ID', $variable->__toString());
-    }
-
-    public function testInvalidateDomainWithoutDot(): void
-    {
-        $this->expectException(RecordArgumentException::class);
-        new Record('appnexuscom', 1234, Relationship::DIRECT);
     }
 }
