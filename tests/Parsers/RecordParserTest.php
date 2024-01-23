@@ -2,7 +2,6 @@
 
 namespace Parsers;
 
-use Badraxas\Adstxt\Enums\Relationship;
 use Badraxas\Adstxt\Lines\Record;
 use Badraxas\Adstxt\Parsers\RecordParser;
 use PHPUnit\Framework\TestCase;

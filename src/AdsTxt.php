@@ -23,22 +23,6 @@ class AdsTxt
     private bool $valid = true;
 
     /**
-     * Get the string representation of the ads.txt content.
-     *
-     * @return string Returns the ads.txt content as a string.
-     */
-    public function pretty(bool $withComment = true): string
-    {
-        $output = '';
-
-        foreach ($this->lines as $line) {
-            $output .= sprintf('%s%s', $line->pretty($withComment), PHP_EOL);
-        }
-
-        return trim($output);
-    }
-
-    /**
      * Add a line to the ads.txt content.
      *
      * @param AdsTxtLineInterface $line The line to be added to the ads.txt content.
@@ -166,6 +150,22 @@ class AdsTxt
     public function isValid(): bool
     {
         return $this->valid;
+    }
+
+    /**
+     * Get the string representation of the ads.txt content.
+     *
+     * @return string Returns the ads.txt content as a string.
+     */
+    public function pretty(bool $withComment = true): string
+    {
+        $output = '';
+
+        foreach ($this->lines as $line) {
+            $output .= sprintf('%s%s', $line->pretty($withComment), PHP_EOL);
+        }
+
+        return trim($output);
     }
 
     /**

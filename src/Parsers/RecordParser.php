@@ -2,8 +2,6 @@
 
 namespace Badraxas\Adstxt\Parsers;
 
-use Badraxas\Adstxt\Enums\Relationship;
-use Badraxas\Adstxt\Exceptions\Lines\RecordArgumentException;
 use Badraxas\Adstxt\Interfaces\AdsTxtLineInterface;
 use Badraxas\Adstxt\Interfaces\ParserInterface;
 use Badraxas\Adstxt\Lines\Comment;
@@ -40,7 +38,6 @@ class RecordParser implements ParserInterface
             $invalid->addError('Record contains more than 4 comma separated values and is therefore improperly formatted');
 
             return $invalid;
-
         }
 
         $domain = trim($exploded_line[0]);
@@ -120,6 +117,7 @@ class RecordParser implements ParserInterface
     private function validateRelationship($relationship): bool
     {
         $relationship = strtoupper($relationship);
-        return $relationship === 'DIRECT' || $relationship === 'RESELLER';
+
+        return 'DIRECT' === $relationship || 'RESELLER' === $relationship;
     }
 }

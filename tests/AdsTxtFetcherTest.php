@@ -2,7 +2,6 @@
 
 use Badraxas\Adstxt\AdsTxt;
 use Badraxas\Adstxt\AdsTxtFetcher;
-use Badraxas\Adstxt\Enums\Relationship;
 use Badraxas\Adstxt\Exceptions\AdsTxtParser\UrlOpenException;
 use Badraxas\Adstxt\Lines\Record;
 use PHPUnit\Framework\MockObject\Exception;

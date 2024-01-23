@@ -1,7 +1,6 @@
 <?php
 
 use Badraxas\Adstxt\AdsTxt;
-use Badraxas\Adstxt\Enums\Relationship;
 use Badraxas\Adstxt\Lines\Blank;
 use Badraxas\Adstxt\Lines\Comment;
 use Badraxas\Adstxt\Lines\Invalid;

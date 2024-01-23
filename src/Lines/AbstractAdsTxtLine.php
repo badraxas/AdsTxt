@@ -6,24 +6,14 @@ use Badraxas\Adstxt\Interfaces\AdsTxtLineInterface;
 
 abstract class AbstractAdsTxtLine implements AdsTxtLineInterface
 {
-    protected string $rawValue = '';
-    protected array $notice = [];
-    protected array $warning = [];
     protected array $error = [];
+    protected array $notice = [];
+    protected string $rawValue = '';
+    protected array $warning = [];
 
-    public function getWarning()
+    public function addError(string $error)
     {
-        return $this->warning;
-    }
-
-    public function addWarning(string $warning)
-    {
-        $this->warning[] = $warning;
-    }
-
-    public function getNotice()
-    {
-        return $this->notice;
+        $this->error[] = $error;
     }
 
     public function addNotice(string $notice)
@@ -31,23 +21,33 @@ abstract class AbstractAdsTxtLine implements AdsTxtLineInterface
         $this->notice[] = $notice;
     }
 
+    public function addWarning(string $warning)
+    {
+        $this->warning[] = $warning;
+    }
+
     public function getError()
     {
         return $this->error;
     }
 
-    public function addError(string $error)
+    public function getNotice()
     {
-        $this->error[] = $error;
-    }
-
-    public function setRawValue(string $rawValue)
-    {
-        $this->rawValue = $rawValue;
+        return $this->notice;
     }
 
     public function getRawValue(): string
     {
         return $this->rawValue;
+    }
+
+    public function getWarning()
+    {
+        return $this->warning;
+    }
+
+    public function setRawValue(string $rawValue)
+    {
+        $this->rawValue = $rawValue;
     }
 }

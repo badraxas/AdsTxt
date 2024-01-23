@@ -38,6 +38,6 @@ class Comment extends AbstractAdsTxtLine
 
     public function pretty(bool $withComment = true): string
     {
-        return !$withComment ? '' : sprintf("# %s", $this->getComment());
+        return !$withComment ? '' : sprintf('# %s', $this->getComment());
     }
 }

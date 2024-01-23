@@ -2,8 +2,6 @@
 
 namespace Lines;
 
-use Badraxas\Adstxt\Enums\Relationship;
-use Badraxas\Adstxt\Exceptions\Lines\RecordArgumentException;
 use Badraxas\Adstxt\Lines\Comment;
 use Badraxas\Adstxt\Lines\Record;
 use PHPUnit\Framework\TestCase;

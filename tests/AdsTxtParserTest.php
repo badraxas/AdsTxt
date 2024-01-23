@@ -2,7 +2,6 @@
 
 use Badraxas\Adstxt\AdsTxt;
 use Badraxas\Adstxt\AdsTxtParser;
-use Badraxas\Adstxt\Enums\Relationship;
 use Badraxas\Adstxt\Exceptions\AdsTxtParser\FileOpenException;
 use Badraxas\Adstxt\Lines\Blank;
 use Badraxas\Adstxt\Lines\Comment;

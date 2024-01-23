@@ -11,5 +11,6 @@ namespace Badraxas\Adstxt\Interfaces;
 interface AdsTxtLineInterface
 {
     public function equals(AdsTxtLineInterface $adsTxtLine): bool;
+
     public function pretty(bool $withComment = true): string;
 }

@@ -3,7 +3,6 @@
 namespace Badraxas\Adstxt\Lines;
 
 use Badraxas\Adstxt\Enums\Relationship;
-use Badraxas\Adstxt\Exceptions\Lines\RecordArgumentException;
 use Badraxas\Adstxt\Interfaces\AdsTxtLineInterface;
 
 /**
@@ -18,8 +17,8 @@ class Record extends AbstractAdsTxtLine
      *
      * @param string       $domain          the domain associated with the record
      * @param mixed        $publisherId     the ID of the publisher associated with the record
-     * @param string $relationship    The relationship of the record (e.g., DIRECT, RESELLER).
-     * @param null|string   $certificationId the certification ID of the record (optional)
+     * @param string       $relationship    The relationship of the record (e.g., DIRECT, RESELLER).
+     * @param null|string  $certificationId the certification ID of the record (optional)
      * @param null|Comment $comment         the comment associated with the record (optional)
      */
     public function __construct(
@@ -28,8 +27,7 @@ class Record extends AbstractAdsTxtLine
         private readonly string $relationship,
         private readonly ?string $certificationId = null,
         private readonly ?Comment $comment = null
-    ) {
-    }
+    ) {}
 
     /**
      * Compares the current Record object with another AdsTxtLineInterface object.
