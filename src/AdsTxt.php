@@ -3,6 +3,7 @@
 namespace Badraxas\Adstxt;
 
 use Badraxas\Adstxt\Interfaces\AdsTxtLineInterface;
+use Badraxas\Adstxt\Lines\AbstractAdsTxtLine;
 use Badraxas\Adstxt\Lines\Invalid;
 
 /**
@@ -13,7 +14,7 @@ use Badraxas\Adstxt\Lines\Invalid;
 class AdsTxt
 {
     /**
-     * @var array<AdsTxtLineInterface> An array containing all the lines of this ads.txt file.
+     * @var array<AbstractAdsTxtLine> An array containing all the lines of this ads.txt file.
      */
     private array $lines = [];
 
@@ -29,9 +30,9 @@ class AdsTxt
      *
      * @return AdsTxt returns the AdsTxt instance after adding the line
      */
-    public function addLine(AdsTxtLineInterface $line): self
+    public function addLine(AbstractAdsTxtLine $line): self
     {
-        if ($this->valid && $line instanceof Invalid) {
+        if ($this->valid && !empty($line->getError())) {
             $this->valid = false;
         }
 
@@ -46,7 +47,7 @@ class AdsTxt
      *
      * @param AdsTxt $other the other AdsTxt instance to compare with
      *
-     * @return array<AdsTxtLineInterface> returns an array containing the lines that are present in the current instance
+     * @return array<AbstractAdsTxtLine> returns an array containing the lines that are present in the current instance
      *                                    but missing in the other instance
      *
      * @psalm-api
@@ -100,10 +101,10 @@ class AdsTxt
     /**
      * Filter the lines in the ads.txt content based on the provided callback function.
      *
-     * The callback function should accept an AdsTxtLineInterface object as a parameter
+     * The callback function should accept an AbstractAdsTxtLine object as a parameter
      * and return true if the line should be included in the filtered result, false otherwise.
      *
-     * @param callable(AdsTxtLineInterface $line): bool $callback the callback function used to filter the lines
+     * @param callable(AbstractAdsTxtLine $line): bool $callback the callback function used to filter the lines
      *
      * @return AdsTxt returns a new AdsTxt instance containing the filtered lines
      *
@@ -135,7 +136,7 @@ class AdsTxt
     }
 
     /**
-     * @return array<AdsTxtLineInterface>
+     * @return array<AbstractAdsTxtLine>
      */
     public function getLines(): array
     {
@@ -171,12 +172,12 @@ class AdsTxt
     /**
      * Check if a given line exists in the AdsTxt instance.
      *
-     * @param AdsTxtLineInterface $searchLine the line to search for
+     * @param AbstractAdsTxtLine $searchLine the line to search for
      * @param AdsTxt              $adsTxt     the AdsTxt instance to search in
      *
      * @return bool returns true if the line exists in the AdsTxt instance; otherwise, false
      */
-    private function lineExistsInAdsTxt(AdsTxtLineInterface $searchLine, AdsTxt $adsTxt): bool
+    private function lineExistsInAdsTxt(AbstractAdsTxtLine $searchLine, AdsTxt $adsTxt): bool
     {
         foreach ($adsTxt->getLines() as $line) {
             if ($searchLine->equals($line)) {
