@@ -64,7 +64,7 @@ class RecordParser implements ParserInterface
             $record->addNotice('Data record domain value contains unnecessary whitespace.');
         }
 
-        if (strtoupper($domain) !== $domain) {
+        if (strtolower($domain) !== $domain) {
             $record->addNotice('Data record domain value contains uppercase characters.');
         }
 
