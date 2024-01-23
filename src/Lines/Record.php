@@ -69,7 +69,7 @@ class Record extends AbstractAdsTxtLine
 
     public function pretty(bool $withComment = true): string
     {
-        $vendor = sprintf('%s, %s, %s', strtolower($this->domain), $this->publisherId, strtolower($this->relationship));
+        $vendor = sprintf('%s, %s, %s', strtolower($this->domain), $this->publisherId, strtoupper($this->relationship));
 
         if (isset($this->certificationId)) {
             $vendor = sprintf('%s, %s', $vendor, $this->certificationId);

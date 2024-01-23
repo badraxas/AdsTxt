@@ -51,9 +51,9 @@ class Variable extends AbstractAdsTxtLine
     public function pretty(bool $withComment = true): string
     {
         if (!isset($this->comment)) {
-            return sprintf('%s=%s', $this->name, $this->value);
+            return sprintf('%s=%s', strtoupper($this->name), $this->value);
         }
 
-        return sprintf('%s=%s%s', $this->name, $this->value, $this->comment->pretty($withComment));
+        return sprintf('%s=%s%s', strtoupper($this->name), $this->value, $this->comment->pretty($withComment));
     }
 }

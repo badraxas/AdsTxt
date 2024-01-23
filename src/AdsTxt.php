@@ -32,7 +32,7 @@ class AdsTxt
      */
     public function addLine(AbstractAdsTxtLine $line): self
     {
-        if ($this->valid && !empty($line->getError())) {
+        if ($this->valid && (!empty($line->getError()) || $line instanceof Invalid)) {
             $this->valid = false;
         }
 

@@ -26,7 +26,7 @@ class AdsTxtTest extends TestCase
         $this->assertEquals('# ads.txt file for example.com:
 greenadexchange.com, 12345, DIRECT, d75815a79
 blueadexchange.com, XF436, DIRECT
-subdomain=divisionone.example.com', $adsTxt->pretty());
+SUBDOMAIN=divisionone.example.com', $adsTxt->pretty());
     }
 
     public function testDiffMethodReturnsMissingLines(): void

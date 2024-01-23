@@ -65,7 +65,7 @@ class AdsTxtParserTest extends TestCase
 
     public function testParseFromString(): void
     {
-        $adsTxtString = "# First line of file\n\ngreenadexchange.com, XF436, DIRECT, d75815a79# GreenAd certification ID\ncontact=contact@example.org";
+        $adsTxtString = "# First line of file\n\ngreenadexchange.com, XF436, DIRECT, d75815a79# GreenAd certification ID\nCONTACT=contact@example.org";
 
         $adsTxtReference = (new AdsTxt())
             ->addLine(new Comment('First line of file'))
@@ -95,7 +95,7 @@ class AdsTxtParserTest extends TestCase
 
     public function testParseFromStringWithInvalidLines(): void
     {
-        $adsTxtString = "# First line of file\ngreenadexchange.com, XF436, DIRECT, d75815a79, GreenAd certification ID\ncontact=contact@example.org";
+        $adsTxtString = "# First line of file\ngreenadexchange.com, XF436, DIRECT, d75815a79, GreenAd certification ID\nCONTACT=contact@example.org";
 
         $adsTxtReference = (new AdsTxt())
             ->addLine(new Comment('First line of file'))
