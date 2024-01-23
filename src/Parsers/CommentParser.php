@@ -2,13 +2,13 @@
 
 namespace Badraxas\Adstxt\Parsers;
 
-use Badraxas\Adstxt\Interfaces\AdsTxtLineInterface;
 use Badraxas\Adstxt\Interfaces\ParserInterface;
+use Badraxas\Adstxt\Lines\AbstractAdsTxtLine;
 use Badraxas\Adstxt\Lines\Comment;
 
 class CommentParser implements ParserInterface
 {
-    public function parse(string $line): AdsTxtLineInterface
+    public function parse(string $line): AbstractAdsTxtLine
     {
         $raw = $line;
         $line = trim(mb_strcut($line, 1));
