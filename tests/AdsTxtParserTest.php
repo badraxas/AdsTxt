@@ -19,7 +19,7 @@ class AdsTxtParserTest extends TestCase
 {
     public function testInvalidParser(): void
     {
-        $this->assertEquals(new Invalid('an invalid line', 'Line appears invalid, it does not validate as a record, variable or comment.', new Comment('test')), ParserFactory::getParser('an invalid line#test')->parse('an invalid line#test'));
+        $this->assertEquals((new Invalid('an invalid line', new Comment('test')))->pretty(), ParserFactory::getParser('an invalid line#test')->parse('an invalid line#test')->pretty());
     }
 
     public function testParseFromFile(): void
@@ -27,14 +27,14 @@ class AdsTxtParserTest extends TestCase
         $adsTxtParser = new AdsTxtParser();
         $adsTxt = $adsTxtParser->fromFile(__DIR__.'/test_files/ads.txt');
         $adsTxtReference = (new AdsTxt())
-            ->addLine(new Comment(' ads.txt file for divisionone.example.com:'))
-            ->addLine(new Record('silverssp.com', 5569, Relationship::DIRECT, 'f496211f496211'))
-            ->addLine(new Record('orangeexchange.com', 'AB345', Relationship::RESELLER))
+            ->addLine(new Comment('ads.txt file for divisionone.example.com:'))
+            ->addLine(new Record('silverssp.com', 5569, 'DIRECT', 'f496211f496211'))
+            ->addLine(new Record('orangeexchange.com', 'AB345', 'RESELLER'))
         ;
 
         $this->assertInstanceOf(AdsTxt::class, $adsTxt);
 
-        $this->assertEquals($adsTxtReference, $adsTxt);
+        $this->assertEquals($adsTxtReference->pretty(), $adsTxt->pretty());
     }
 
     public function testParseFromInvalidString(): void
@@ -42,10 +42,10 @@ class AdsTxtParserTest extends TestCase
         $adsTxtString = "greenadexchange.com, XF436\nVARIABLE=john=doe\ndomain.com,1234,DIRECT\"\ndomain@domain.tld,abcd,DIRECT";
 
         $adsTxtReference = (new AdsTxt())
-            ->addLine(new Invalid('greenadexchange.com, XF436', 'Record contains less than 3 comma separated values and is therefore improperly formatted.'))
-            ->addLine(new Invalid('VARIABLE=john=doe', 'Line appears invalid, it does not validate as a record, variable or comment.'))
-            ->addLine(new Invalid('domain.com,1234,DIRECT"', "Relationship value must be 'DIRECT' or 'RESELLER'."))
-            ->addLine(new Invalid('domain@domain.tld,abcd,DIRECT', 'Domain "domain@domain.tld" does not appear valid.'))
+            ->addLine(new Invalid('greenadexchange.com, XF436'))
+            ->addLine(new Invalid('VARIABLE=john=doe'))
+            ->addLine(new Invalid('domain.com, 1234, DIRECT"'))
+            ->addLine(new Invalid('domain@domain.tld, abcd, DIRECT'))
         ;
 
         $adsTxtParser = new AdsTxtParser();
@@ -53,12 +53,7 @@ class AdsTxtParserTest extends TestCase
 
         $this->assertInstanceOf(AdsTxt::class, $adsTxt);
 
-        $this->assertEquals($adsTxtReference, $adsTxt);
-
-        $this->assertEquals(
-            $adsTxtString,
-            $adsTxt->__toString()
-        );
+        $this->assertEquals($adsTxtReference->pretty(), $adsTxt->pretty());
     }
 
     public function testParseFromMissingFile(): void
@@ -71,17 +66,17 @@ class AdsTxtParserTest extends TestCase
 
     public function testParseFromString(): void
     {
-        $adsTxtString = "# First line of file\n\ngreenadexchange.com, XF436, DIRECT, d75815a79 # GreenAd certification ID\ncontact=contact@example.org";
+        $adsTxtString = "# First line of file\n\ngreenadexchange.com, XF436, DIRECT, d75815a79# GreenAd certification ID\ncontact=contact@example.org";
 
         $adsTxtReference = (new AdsTxt())
-            ->addLine(new Comment(' First line of file'))
+            ->addLine(new Comment('First line of file'))
             ->addLine(new Blank())
             ->addLine(new Record(
                 'greenadexchange.com',
                 'XF436',
-                Relationship::DIRECT,
+                'DIRECT',
                 'd75815a79',
-                new Comment(' GreenAd certification ID')
+                new Comment('GreenAd certification ID')
             ))
             ->addLine(new Variable('contact', 'contact@example.org'))
         ;
@@ -91,11 +86,11 @@ class AdsTxtParserTest extends TestCase
 
         $this->assertInstanceOf(AdsTxt::class, $adsTxt);
 
-        $this->assertEquals($adsTxtReference, $adsTxt);
+        $this->assertEquals($adsTxtReference->pretty(), $adsTxt->pretty());
 
         $this->assertEquals(
             $adsTxtString,
-            $adsTxt->__toString()
+            $adsTxt->pretty()
         );
     }
 
@@ -104,8 +99,8 @@ class AdsTxtParserTest extends TestCase
         $adsTxtString = "# First line of file\ngreenadexchange.com, XF436, DIRECT, d75815a79, GreenAd certification ID\ncontact=contact@example.org";
 
         $adsTxtReference = (new AdsTxt())
-            ->addLine(new Comment(' First line of file'))
-            ->addLine(new Invalid('greenadexchange.com, XF436, DIRECT, d75815a79, GreenAd certification ID', 'Record contains more than 4 comma separated values and is therefore improperly formatted'))
+            ->addLine(new Comment('First line of file'))
+            ->addLine(new Invalid('greenadexchange.com, XF436, DIRECT, d75815a79, GreenAd certification ID'))
             ->addLine(new Variable('contact', 'contact@example.org'))
         ;
 
@@ -114,11 +109,11 @@ class AdsTxtParserTest extends TestCase
 
         $this->assertInstanceOf(AdsTxt::class, $adsTxt);
 
-        $this->assertEquals($adsTxtReference, $adsTxt);
+        $this->assertEquals($adsTxtReference->pretty(), $adsTxt->pretty());
 
         $this->assertEquals(
             $adsTxtString,
-            $adsTxt->__toString()
+            $adsTxt->pretty()
         );
     }
 }

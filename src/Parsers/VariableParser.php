@@ -17,21 +17,39 @@ class VariableParser implements ParserInterface
         if (str_contains($line, '#')) {
             $exploded_line = explode('#', $line);
 
-            $comment = new Comment(rtrim($exploded_line[1]));
-            $line = trim($exploded_line[0]);
+            $comment = new Comment(trim($exploded_line[1]));
+            $line = $exploded_line[0];
         }
 
         $exploded_line = explode('=', $line);
-        $exploded_line = array_map('trim', $exploded_line);
 
         if (2 != count($exploded_line)) {
-            return new Invalid($line, 'Line appears invalid, it does not validate as a record, variable or comment.', $comment);
+            $invalid = new Invalid($line, $comment);
+            $invalid->addError('Line appears invalid, it does not validate as a record, variable or comment.');
+
+            return $invalid;
         }
 
-        return new Variable(
-            name: $exploded_line[0],
-            value: $exploded_line[1],
+        $name = trim($exploded_line[0]);
+        $value = trim($exploded_line[1]);
+
+        $variable = new Variable(
+            name: $name,
+            value: $value,
             comment: $comment
         );
+
+        if (!$this->validateName($name)) {
+            $variable->addWarning("Variable name is invalid, must be 'CONTACT', 'SUBDOMAIN', 'OWNERDOMAIN' or 'INVENTORYPARTNERDOMAIN'.");
+        }
+
+        return $variable;
+    }
+
+    private function validateName($name): bool
+    {
+        $name = strtoupper($name);
+
+        return in_array($name, ['CONTACT', 'SUBDOMAIN', 'INVENTORYPARTNERDOMAIN', 'OWNERDOMAIN'], true);
     }
 }

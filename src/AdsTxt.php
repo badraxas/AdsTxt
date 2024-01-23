@@ -10,7 +10,7 @@ use Badraxas\Adstxt\Lines\Invalid;
  *
  * Represents the content of an ads.txt file and provides methods to manage its lines.
  */
-class AdsTxt implements \Stringable
+class AdsTxt
 {
     /**
      * @var array<AdsTxtLineInterface> An array containing all the lines of this ads.txt file.
@@ -27,12 +27,12 @@ class AdsTxt implements \Stringable
      *
      * @return string Returns the ads.txt content as a string.
      */
-    public function __toString(): string
+    public function pretty(bool $withComment = true): string
     {
         $output = '';
 
         foreach ($this->lines as $line) {
-            $output .= sprintf('%s%s', $line->__toString(), PHP_EOL);
+            $output .= sprintf('%s%s', $line->pretty($withComment), PHP_EOL);
         }
 
         return trim($output);

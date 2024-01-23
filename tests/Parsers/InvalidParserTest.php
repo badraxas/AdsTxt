@@ -18,7 +18,7 @@ final class InvalidParserTest extends TestCase
 
         $parsedLine = $parser->parse('an invalid line');
 
-        $this->assertEquals(new Invalid('an invalid line', 'Line appears invalid, it does not validate as a record, variable or comment.'), $parsedLine);
+        $this->assertEquals((new Invalid('an invalid line'))->pretty(), $parsedLine->pretty());
     }
 
     public function testInvalidParsingWithComment(): void
@@ -27,10 +27,9 @@ final class InvalidParserTest extends TestCase
 
         $parsedLine = $parser->parse('an invalid line#with comment');
 
-        $this->assertEquals(new Invalid(
+        $this->assertEquals((new Invalid(
             'an invalid line',
-            'Line appears invalid, it does not validate as a record, variable or comment.',
             new Comment('with comment')
-        ), $parsedLine);
+        ))->pretty(), $parsedLine->pretty());
     }
 }

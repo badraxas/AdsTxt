@@ -9,7 +9,7 @@ use Badraxas\Adstxt\Interfaces\AdsTxtLineInterface;
  *
  * Represents a line in the ads.txt file containing a variable with its name and value.
  */
-class Variable implements AdsTxtLineInterface
+class Variable extends AbstractAdsTxtLine
 {
     /**
      * Variable constructor.
@@ -21,20 +21,6 @@ class Variable implements AdsTxtLineInterface
     public function __construct(private readonly string $name, private $value, private readonly ?Comment $comment = null) {}
 
     /**
-     * Get the string representation of the Variable line.
-     *
-     * @return string returns the Variable line as a string
-     */
-    public function __toString(): string
-    {
-        if (!isset($this->comment)) {
-            return sprintf('%s=%s', $this->name, $this->value);
-        }
-
-        return sprintf('%s=%s %s', $this->name, $this->value, $this->comment->__toString());
-    }
-
-    /**
      * Compares the current Record object with another AdsTxtLineInterface object.
      *
      * @param AdsTxtLineInterface $adsTxtLine the AdsTxtLineInterface object to compare with
@@ -44,7 +30,7 @@ class Variable implements AdsTxtLineInterface
      */
     public function equals(AdsTxtLineInterface $adsTxtLine): bool
     {
-        return $adsTxtLine instanceof Variable && $adsTxtLine->__toString() === $this->__toString();
+        return $adsTxtLine instanceof Variable && $adsTxtLine->pretty() === $this->pretty();
     }
 
     public function getComment(): ?Comment
@@ -60,5 +46,14 @@ class Variable implements AdsTxtLineInterface
     public function getValue(): mixed
     {
         return $this->value;
+    }
+
+    public function pretty(bool $withComment = true): string
+    {
+        if (!isset($this->comment)) {
+            return sprintf('%s=%s', $this->name, $this->value);
+        }
+
+        return sprintf('%s=%s%s', $this->name, $this->value, $this->comment->pretty($withComment));
     }
 }

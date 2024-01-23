@@ -18,6 +18,6 @@ final class RecordParserTest extends TestCase
 
         $parsedLine = $parser->parse('aps.amazon.com, 12345, DIRECT');
 
-        $this->assertEquals(new Record('aps.amazon.com', 12345, Relationship::DIRECT), $parsedLine);
+        $this->assertEquals((new Record('aps.amazon.com', 12345, 'DIRECT'))->pretty(), $parsedLine->pretty());
     }
 }
