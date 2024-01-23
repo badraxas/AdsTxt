@@ -23,6 +23,7 @@ class RecordParser implements ParserInterface
         }
 
         $exploded_line = explode(',', $line);
+        $exploded_line = array_map('trim', $exploded_line);
 
         $fieldsCount = count($exploded_line);
 
