@@ -1,7 +1,6 @@
 <?php
 
 use Badraxas\Adstxt\AdsTxt;
-use Badraxas\Adstxt\Enums\Relationship;
 use Badraxas\Adstxt\Lines\Blank;
 use Badraxas\Adstxt\Lines\Comment;
 use Badraxas\Adstxt\Lines\Invalid;
@@ -18,16 +17,16 @@ class AdsTxtTest extends TestCase
     {
         $adsTxt = new AdsTxt();
         $adsTxt
-            ->addLine(new Comment(' ads.txt file for example.com:'))
-            ->addLine(new Record('greenadexchange.com', 12345, Relationship::DIRECT, 'd75815a79'))
-            ->addLine(new Record('blueadexchange.com', 'XF436', Relationship::DIRECT))
+            ->addLine(new Comment('ads.txt file for example.com:'))
+            ->addLine(new Record('greenadexchange.com', 12345, 'DIRECT', 'd75815a79'))
+            ->addLine(new Record('blueadexchange.com', 'XF436', 'DIRECT'))
             ->addLine(new Variable('subdomain', 'divisionone.example.com'))
         ;
 
         $this->assertEquals('# ads.txt file for example.com:
 greenadexchange.com, 12345, DIRECT, d75815a79
 blueadexchange.com, XF436, DIRECT
-subdomain=divisionone.example.com', $adsTxt->__toString());
+subdomain=divisionone.example.com', $adsTxt->pretty());
     }
 
     public function testDiffMethodReturnsMissingLines(): void
@@ -35,9 +34,9 @@ subdomain=divisionone.example.com', $adsTxt->__toString());
         $adsTxt1 = new AdsTxt();
         $adsTxt2 = new AdsTxt();
 
-        $line1 = new Record('example.com', 'pub-123456789', Relationship::DIRECT, 'abcdef12345');
-        $line2 = new Record('example.com', 'pub-987654321', Relationship::RESELLER, '12345abcdef');
-        $line3 = new Record('example.com', 'pub-444555666', Relationship::DIRECT, 'abcddef789');
+        $line1 = new Record('example.com', 'pub-123456789', 'DIRECT', 'abcdef12345');
+        $line2 = new Record('example.com', 'pub-987654321', 'RESELLER', '12345abcdef');
+        $line3 = new Record('example.com', 'pub-444555666', 'DIRECT', 'abcddef789');
 
         $adsTxt1->addLine($line1)->addLine($line2);
 
@@ -57,7 +56,7 @@ subdomain=divisionone.example.com', $adsTxt->__toString());
             ->addLine(new Record(
                 'greenadexchange.com',
                 'XF436',
-                Relationship::DIRECT,
+                'DIRECT',
                 'd75815a79',
                 new Comment(' GreenAd certification ID')
             ))
@@ -70,7 +69,7 @@ subdomain=divisionone.example.com', $adsTxt->__toString());
             ->addLine(new Record(
                 'greenadexchange.com',
                 'XF436',
-                Relationship::DIRECT,
+                'DIRECT',
                 'd75815a79',
                 new Comment(' GreenAd certification ID')
             ))
@@ -89,7 +88,7 @@ subdomain=divisionone.example.com', $adsTxt->__toString());
             ->addLine(new Record(
                 'greenadexchange.com',
                 'XF436',
-                Relationship::DIRECT,
+                'DIRECT',
                 'd75815a79',
                 new Comment(' GreenAd certification ID')
             ))
@@ -100,7 +99,7 @@ subdomain=divisionone.example.com', $adsTxt->__toString());
             ->addLine(new Record(
                 'greenadexchange.com',
                 'XF436',
-                Relationship::DIRECT,
+                'DIRECT',
                 'd75815a79',
                 new Comment(' GreenAd certification ID')
             ))
@@ -113,15 +112,15 @@ subdomain=divisionone.example.com', $adsTxt->__toString());
     public function testInvalidLine(): void
     {
         $adsTxt = new AdsTxt();
-        $adsTxt->addLine(new Invalid('This line is invalid', 'Record contains less than 3 comma separated values and is therefore improperly formatted.'))
+        $adsTxt->addLine(new Invalid('This line is invalid'))
             ->addLine(new Comment(' This is a valid comment'))
-            ->addLine(new Invalid('This, Is Invalid', 'Record contains less than 3 comma separated values and is therefore improperly formatted.'))
+            ->addLine(new Invalid('This, Is Invalid'))
         ;
 
         $this->assertFalse($adsTxt->isValid());
         $this->assertEquals([
-            0 => new Invalid('This line is invalid', 'Record contains less than 3 comma separated values and is therefore improperly formatted.'),
-            2 => new Invalid('This, Is Invalid', 'Record contains less than 3 comma separated values and is therefore improperly formatted.'),
+            0 => new Invalid('This line is invalid'),
+            2 => new Invalid('This, Is Invalid'),
         ], $adsTxt->getInvalidLines());
     }
 
@@ -133,7 +132,7 @@ subdomain=divisionone.example.com', $adsTxt->__toString());
             ->addLine(new Record(
                 'greenadexchange.com',
                 'XF436',
-                Relationship::DIRECT,
+                'DIRECT',
                 'd75815a79',
                 new Comment(' GreenAd certification ID')
             ))
@@ -145,7 +144,7 @@ subdomain=divisionone.example.com', $adsTxt->__toString());
             ->addLine(new Record(
                 'greenadexchange.com',
                 'XF436',
-                Relationship::DIRECT,
+                'DIRECT',
                 'd75815a79',
                 new Comment(' GreenAd certification ID')
             ))
@@ -160,7 +159,7 @@ subdomain=divisionone.example.com', $adsTxt->__toString());
             ->addLine(new Record(
                 'greenadexcange.com',
                 'XF436',
-                Relationship::DIRECT,
+                'DIRECT',
                 'd75815a79',
                 new Comment(' GreenAd certification ID')
             ))
@@ -172,7 +171,7 @@ subdomain=divisionone.example.com', $adsTxt->__toString());
             ->addLine(new Record(
                 'greenadexchange.com',
                 'XF436',
-                Relationship::DIRECT,
+                'DIRECT',
                 'd75815a79',
                 new Comment(' GreenAd certification ID')
             ))
@@ -183,7 +182,7 @@ subdomain=divisionone.example.com', $adsTxt->__toString());
         $this->assertFalse($adsTxt2->equals($adsTxt1));
 
         $adsTxt1 = (new AdsTxt())
-            ->addLine(new Invalid('@@@@@', 'Wrong format'))
+            ->addLine(new Invalid('@@@@@'))
         ;
 
         $adsTxt2 = (new AdsTxt())

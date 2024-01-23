@@ -11,6 +11,8 @@ class InvalidParser implements ParserInterface
 {
     public function parse(string $line): AdsTxtLineInterface
     {
+        $raw = $line;
+
         $comment = null;
 
         if (str_contains($line, '#')) {
@@ -20,6 +22,10 @@ class InvalidParser implements ParserInterface
             $line = trim($exploded_line[0]);
         }
 
-        return new Invalid($line, 'Line appears invalid, it does not validate as a record, variable or comment.', $comment);
+        $invalid = new Invalid($line, $comment);
+        $invalid->setRawValue($raw);
+        $invalid->addError('Line appears invalid, it does not validate as a record, variable or comment.');
+
+        return $invalid;
     }
 }

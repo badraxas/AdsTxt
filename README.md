@@ -118,7 +118,7 @@ $missingLines = $adsTxt->diff($otherAdsTxt);
 $newAdsTxt = new AdsTxt();
 $newAdsTxt
     ->addLine(new Comment(' app-ads.txt file for vMVPD B:'))
-    ->addLine(new Record('ssp.com', 'vwxyz', Relationship::DIRECT))
+    ->addLine(new Record('ssp.com', 'vwxyz', 'DIRECT'))
     ->addLine(new Variable('inventorypartnerdomain', 'programmerA.com'))
 
 // display ads.txt as string
@@ -140,7 +140,7 @@ use Badraxas\Adstxt\Enums\Relationship;
 $vendorLine = new Record(
   domain: 'example.com',
   publisherId: '123456',
-  relationship: Relationship::DIRECT,
+  relationship: 'DIRECT',
   certificationId: 'ABCD1234',
   comment: null
 );

@@ -17,6 +17,6 @@ final class CommentParserTest extends TestCase
 
         $parsedLine = $parser->parse('# a comment');
 
-        $this->assertEquals(new Comment(' a comment'), $parsedLine);
+        $this->assertEquals((new Comment('a comment'))->pretty(), $parsedLine->pretty());
     }
 }

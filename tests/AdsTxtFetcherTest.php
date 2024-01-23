@@ -2,7 +2,6 @@
 
 use Badraxas\Adstxt\AdsTxt;
 use Badraxas\Adstxt\AdsTxtFetcher;
-use Badraxas\Adstxt\Enums\Relationship;
 use Badraxas\Adstxt\Exceptions\AdsTxtParser\UrlOpenException;
 use Badraxas\Adstxt\Lines\Record;
 use PHPUnit\Framework\MockObject\Exception;
@@ -59,10 +58,10 @@ class AdsTxtFetcherTest extends TestCase
             new Record(
                 'exampleDomain.com',
                 '12345',
-                Relationship::DIRECT,
+                'DIRECT',
                 'd12345678f01234'
             )
-        ), $result);
+        )->pretty(), $result->pretty());
     }
 
     public function testParseFromUrlInvalidUrl(): void

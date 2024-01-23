@@ -18,6 +18,6 @@ final class VariableParserTest extends TestCase
 
         $parsedLine = $parser->parse('VARIABLE=VALUE #test');
 
-        $this->assertEquals(new Variable('VARIABLE', 'VALUE', new Comment('test')), $parsedLine);
+        $this->assertEquals((new Variable('VARIABLE', 'VALUE', new Comment('test')))->pretty(), $parsedLine->pretty());
     }
 }

@@ -9,7 +9,7 @@ use Badraxas\Adstxt\Interfaces\AdsTxtLineInterface;
  *
  * Represents a comment line in the ads.txt file.
  */
-class Comment implements AdsTxtLineInterface
+class Comment extends AbstractAdsTxtLine
 {
     /**
      * Comment constructor.
@@ -17,16 +17,6 @@ class Comment implements AdsTxtLineInterface
      * @param string $comment the content of the comment
      */
     public function __construct(private readonly string $comment) {}
-
-    /**
-     * Get the string representation of the Comment line.
-     *
-     * @return string returns the Comment line as a string
-     */
-    public function __toString(): string
-    {
-        return sprintf('#%s', $this->comment);
-    }
 
     /**
      * Compares the current Record object with another AdsTxtLineInterface object.
@@ -38,11 +28,16 @@ class Comment implements AdsTxtLineInterface
      */
     public function equals(AdsTxtLineInterface $adsTxtLine): bool
     {
-        return $adsTxtLine instanceof Comment && $adsTxtLine->__toString() === $this->__toString();
+        return $adsTxtLine instanceof Comment && $adsTxtLine->pretty() === $this->pretty();
     }
 
     public function getComment(): string
     {
         return $this->comment;
+    }
+
+    public function pretty(bool $withComment = true): string
+    {
+        return !$withComment ? '' : sprintf('# %s', $this->getComment());
     }
 }

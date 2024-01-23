@@ -9,18 +9,8 @@ use Badraxas\Adstxt\Interfaces\AdsTxtLineInterface;
  *
  * Represents a blank line in the ads.txt file.
  */
-class Blank implements AdsTxtLineInterface
+class Blank extends AbstractAdsTxtLine
 {
-    /**
-     * Get the string representation of the Blank line.
-     *
-     * @return string returns an empty string representing the Blank line
-     */
-    public function __toString(): string
-    {
-        return '';
-    }
-
     /**
      * Compares the current Record object with another AdsTxtLineInterface object.
      *
@@ -31,6 +21,11 @@ class Blank implements AdsTxtLineInterface
      */
     public function equals(AdsTxtLineInterface $adsTxtLine): bool
     {
-        return $adsTxtLine instanceof Blank && $adsTxtLine->__toString() === $this->__toString();
+        return $adsTxtLine instanceof Blank && $adsTxtLine->pretty() === $this->pretty();
+    }
+
+    public function pretty(bool $withComment = true): string
+    {
+        return '';
     }
 }
